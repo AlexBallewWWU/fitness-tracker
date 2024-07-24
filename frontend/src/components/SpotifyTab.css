@@ -1,0 +1,24 @@
+.spotifyTab{
+    width: 60%;
+    height: 10%;
+    background-color: black;
+    margin: auto;
+    margin-top: 5%;
+    border-radius: 20px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: white;
+    display : flex; /* these help to vertically align future inside divs */
+    align-items : center;
+    color: white;
+    /* color: rgb(77, 183, 77); for later text*/
+    font-size: 3vw; /* fix later, goes over border when to large*/
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 2%;
+}
+
+.album{
+    width: 20%;
+    height: 20%;
+    margin-left: 2%;
+}
