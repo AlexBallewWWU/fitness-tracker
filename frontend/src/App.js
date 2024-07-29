@@ -1,7 +1,8 @@
 import SpotifyTab from './components/SpotifyTab';
 import { requestAuth } from './components/Auth';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import AddWorkout from './components/AddWorkout';
+import { CreateWorkout } from './components/AddWorkout';
 
 var access = '';
 export var accessContext = React.createContext();
@@ -9,6 +10,7 @@ export var accessContext = React.createContext();
 function App() {
 
   const [hasLoaded, setHasLoaded] = useState(false);
+  const [phase, phaseChange] = useState("Home");
 
   // include useEffect for efficiency as we only need this run once
   useEffect(() => {
@@ -19,10 +21,12 @@ function App() {
     });
   }, []);
   
-  if(hasLoaded == true){
+  if(hasLoaded == true){  // need auth to finish before proceeding to here
     return(
       <accessContext.Provider value={access}>
-        <SpotifyTab/>
+        {phase == "Home" && <SpotifyTab/>}
+        {phase == "Home" && <AddWorkout phase={phase} phaseChange={phaseChange}/>}
+        {phase == "newWorkout" && <CreateWorkout phaseChange={phaseChange}/>}
       </accessContext.Provider>
     )
   }

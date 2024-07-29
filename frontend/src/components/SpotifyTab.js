@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './SpotifyTab.css'
 import { accessContext } from '../App'
+import logo from './img/spotifyIcon.png'
 
 var accessToken = '';
 var playlistInfo = '';
@@ -14,24 +15,27 @@ export default function SpotifyTab(access) {
     const [hasLoaded, setHasLoaded] = useState(false);
     access = useContext(accessContext);
 
-    useEffect(() => {
+    useEffect(() => {  // only need to run once
         accessToken = access.access_token;
         getRecPlaylist().then( (res) => {
-            playlistInfo = res;
-            const recSong = Math.floor(Math.random() * playlistInfo.total - 1); // acount for starting at 0
-            reccomendedSong = playlistInfo.items[recSong].track.name;
-            reccomendedSongAlbum = playlistInfo.items[recSong].track.album.images[0].url
+            if(reccomendedSong == ''){ // check to make sure we're not reseting rec song of workout
+                playlistInfo = res;
+                const recSong = Math.floor(Math.random() * playlistInfo.total - 1); // acount for starting at 0
+                reccomendedSong = playlistInfo.items[recSong].track.name;
+                reccomendedSongAlbum = playlistInfo.items[recSong].track.album.images[0].url
+            }
             setHasLoaded(true);
         })
     }, [])
 
-    if(hasLoaded == true){
+    if(hasLoaded == true){  // need api requests to finish first, may change this to useState and load image when finished later
         return (
             <div className='spotifyTab'>
-                <text style={{fontSize: '3.4vw'}}>
+                <img src={logo} className='spotifySymbol'></img>
+                <p style={{fontSize: '2.5vw', margin: 0}}>
                     Creators Recommended Song of The Workout: &nbsp;  
-                    <text style={{color: 'green', fontSize: '3.4vw'}}>{reccomendedSong}</text>
-                </text>
+                    <span style={{color: 'green', fontSize: '2.5vw'}}>{reccomendedSong}</span>
+                </p>
                 <img src={reccomendedSongAlbum} className='album'></img>
             </div>
         )
