@@ -10,10 +10,10 @@ var reccomendedSongAlbum = '';
 
 const PLAYLIST = "https://api.spotify.com/v1/playlists"
 
-export default function SpotifyTab(access) {
+export default function SpotifyTab() {
 
     const [hasLoaded, setHasLoaded] = useState(false);
-    access = useContext(accessContext);
+    var {access} = useContext(accessContext);
 
     useEffect(() => {  // only need to run once
         accessToken = access.access_token;

@@ -1,6 +1,7 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import './AddWorkout.css'
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { accessContext } from '../App'
 export { CreateWorkout }
 
 export default function AddWorkout({phase, phaseChange}) {
@@ -28,14 +29,26 @@ export default function AddWorkout({phase, phaseChange}) {
 
 function CreateWorkout({phaseChange}){
     console.log("making new workout");
+    var {workouts, changeWorkouts} = useContext(accessContext);
+
 
     function backtoHome(){
+    changeWorkouts([... workouts, "test"]);
+        phaseChange("Home");
+    }
+
+    function cancel(){
         phaseChange("Home");
     }
 
     return (
-        <div className='newWorkout'>
-            <button onClick={backtoHome}></button>
+        <div style={{height: '100%', width: '100%'}}>
+            <button className='finished' onClick={backtoHome}>Finish</button>
+            <div className='newWorkout'>
+                {/* <div className='newWorkout'></div> */}
+                <input type='text' className='workoutName' placeholder='Workout Name'></input>
+                <button className='cancelLift' onClick={cancel}>Cancel</button>
+            </div>
         </div>
     )
 }
