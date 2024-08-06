@@ -2,7 +2,7 @@ import SpotifyTab from './components/SpotifyTab';
 import { requestAuth } from './components/Auth';
 import React, { useEffect, useState } from 'react';
 import AddWorkout from './components/AddWorkout';
-import { CreateWorkout } from './components/AddWorkout';
+import { CreateWorkout, Ad } from './components/AddWorkout';
 
 // we create a context so that all components can access spotify token
 var access = '';
@@ -13,6 +13,11 @@ function App() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [phase, phaseChange] = useState("Home");
   const [workouts, changeWorkouts] = useState([]);
+  // we will store all of the works outs here as obejects and 
+  // in useEffect we will pack it full of the previous ones and add to it
+  // then it will be returned here as to automatically keep updating the page for us using the map array function
+  // all workouts will be kept in this array, so if they delete one after we call the backend
+  // it will remove it from the server for us
   // var workouts = [];
   console.log(workouts);
   
@@ -31,8 +36,13 @@ function App() {
     return(
       <accessContext.Provider value={{access, workouts, changeWorkouts}}>
         {phase == "Home" && <SpotifyTab/>}
-        {phase == "Home" && <AddWorkout phase={phase} phaseChange={phaseChange}/>}
-        {phase == "newWorkout" && <CreateWorkout phaseChange={phaseChange} workouts={workouts}/>}
+        {workouts.map((item) => ( // need to add new UI for onClick for these now
+            phase == "Home" && <AddWorkout phase={phase} phaseChange={phaseChange} name={item.workoutName}></AddWorkout>
+        ))}
+
+        {phase == "Home" && <AddWorkout phase={phase} phaseChange={phaseChange} name={""}/>}
+        {phase == "newWorkout" && <CreateWorkout phaseChange={phaseChange} workouts={workouts}>
+        </CreateWorkout>}
         {/* {test} */}
       </accessContext.Provider>
     )
