@@ -20,7 +20,6 @@ function App() {
   // it will remove it from the server for us
   // var workouts = [];
   console.log(workouts);
-  
   // console.log(workouts);
 
   // include useEffect for efficiency as we only need this run once
@@ -41,8 +40,7 @@ function App() {
         ))}
 
         {phase == "Home" && <AddWorkout phase={phase} phaseChange={phaseChange} name={""}/>}
-        {phase == "newWorkout" && <CreateWorkout phaseChange={phaseChange} workouts={workouts}>
-        </CreateWorkout>}
+        {phase == "newWorkout" && <CreateWorkout phaseChange={phaseChange} workouts={workouts}/>}
         {/* {test} */}
       </accessContext.Provider>
     )

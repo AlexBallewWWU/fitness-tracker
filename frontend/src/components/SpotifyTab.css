@@ -1,6 +1,6 @@
 .spotifyTab{
     width: 60%;
-    height: 25%;
+    height: auto;
     background-color: black;
     margin: auto;
     margin-top: 5%;
@@ -18,14 +18,14 @@
 }
 
 .album{
-    /* width: 20%; */
-    height: 100%;
+    width: 22%;
+    height: auto;
     margin-left: 2%;
 }
 
 .spotifySymbol{
     object-fit: contain;
-    height: 100%;
+    /* height: 100%; */
     width: 20%;
-    margin-right: 2%;
+    margin-right: 5%;
 }

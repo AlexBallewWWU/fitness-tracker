@@ -26,7 +26,9 @@ html, body, #root, .App {
 
 .newWorkout{
     width: 60%;
-    height: 75%;
+    /* height: 75%; */
+    min-height: 75%;
+    overflow: hidden;
     background-color: black;
     margin: auto;
     border-radius: 20px;
@@ -76,7 +78,7 @@ html, body, #root, .App {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.cancelLift{
+.cancelLift2{
     background-color: rgb(162, 16, 16);
     width: 77%;
     height: 11%;
@@ -84,7 +86,7 @@ html, body, #root, .App {
     border-width: 6px;
     border-style: solid;
     border-color: white;
-    display: block;
+    /* display: block; */
     color: white;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 3vw;
@@ -94,18 +96,43 @@ html, body, #root, .App {
     right: 0;
     margin-left: auto; 
     margin-right: auto; 
-    bottom: 2.5%;
+    margin-top: 2%;
+    display: flex;
+    /* bottom: 2.5%; */
 }
 
+.cancelLift{
+    width: 77%;
+    height: 11%;
+    background-color: rgb(162, 16, 16);
+    left: 0;
+    right: 0;
+    margin-left: auto; 
+    margin-right: auto; 
+    margin-top: 1%;
+    border-radius: 20px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: white;
+    color: white;
+    font-size: 2.5vw;
+    display : flex;
+    align-items : center;    
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    justify-content: center;
+}
+
+
 .addExercise{
-    width: 60%;
+    width: 70%;
     height: 8%;
     background-color: black;
     left: 0;
     right: 0;
     margin-left: auto; 
     margin-right: auto; 
-    margin-top: 5%;
+    margin-top: 1%;
     border-radius: 20px;
     border-width: 6px;
     border-style: solid;
@@ -117,19 +144,19 @@ html, body, #root, .App {
     display : flex; /* these help to vertically align future inside divs */
     align-items : center;    
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    position: absolute;
+    /* position: absolute; */
 }
 
 .addExercise2{
     top: 27%;
-    width: 50%;
-    height: 7%;
+    width: 70%;
+    height: 8%;
     background-color: black;
     left: 0;
     right: 0;
     margin-left: auto; 
     margin-right: auto; 
-    margin-top: 5%;
+    margin-top: 1%;
     border-radius: 20px;
     border-width: 6px;
     border-style: solid;
@@ -140,8 +167,9 @@ html, body, #root, .App {
     font-size: 2.5vw; /* fix later, goes over border when to large*/
     display : flex; /* these help to vertically align future inside divs */
     align-items : center;    
+    text-align: center;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    position: absolute;
+    /* position: absolute; */
 }
 
 p{
