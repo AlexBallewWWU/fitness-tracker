@@ -6,6 +6,7 @@ import { CreateWorkout, Ad } from './components/AddWorkout';
 
 // we create a context so that all components can access spotify token
 var access = '';
+
 export var accessContext = React.createContext();
 
 function App() {
@@ -13,13 +14,16 @@ function App() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [phase, phaseChange] = useState("Home");
   const [workouts, changeWorkouts] = useState([]);
+  const [workoutLastClicked, changeLastClicked] = useState(0);
+  
+  console.log(workoutLastClicked);
   // we will store all of the works outs here as obejects and 
   // in useEffect we will pack it full of the previous ones and add to it
   // then it will be returned here as to automatically keep updating the page for us using the map array function
   // all workouts will be kept in this array, so if they delete one after we call the backend
   // it will remove it from the server for us
   // var workouts = [];
-  console.log(workouts);
+  // console.log(workouts);
   // console.log(workouts);
 
   // include useEffect for efficiency as we only need this run once
@@ -33,21 +37,19 @@ function App() {
   
   if(hasLoaded == true){  // need auth to finish before proceeding to here
     return(
-      <accessContext.Provider value={{access, workouts, changeWorkouts}}>
+      <accessContext.Provider value={{access, workouts, changeWorkouts, workoutLastClicked, changeLastClicked}}>
         {phase == "Home" && <SpotifyTab/>}
-        {workouts.map((item) => ( // need to add new UI for onClick for these now
-            phase == "Home" && <AddWorkout phase={phase} phaseChange={phaseChange} name={item.workoutName}></AddWorkout>
+        {workouts.map((item, index) => (
+            phase == "Home" && <AddWorkout phase={phase} phaseChange={phaseChange} name={item.workoutName} key={index} location={index}></AddWorkout>
         ))}
 
-        {phase == "Home" && <AddWorkout phase={phase} phaseChange={phaseChange} name={""}/>}
+        {phase == "Home" && <AddWorkout phase={phase} phaseChange={phaseChange} name={""} location={-1}/>}
         {phase == "newWorkout" && <CreateWorkout phaseChange={phaseChange} workouts={workouts}/>}
         {/* {test} */}
       </accessContext.Provider>
     )
   }
 }
-
-
 
 
 
