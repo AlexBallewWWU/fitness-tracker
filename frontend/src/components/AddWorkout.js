@@ -111,7 +111,7 @@ function CreateWorkout({phaseChange}){
 function AddExerciseTab({workout, changeWorkout}){
     // console.log("adding exercise");
     // console.log(workout);
-
+        // test change
     // all this should do is add a value to map
     function addExercise(){
         var temp = workout.arr;
