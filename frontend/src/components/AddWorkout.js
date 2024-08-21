@@ -39,7 +39,7 @@ function CreateWorkout({phaseChange}){
     // console.log("making new workout");
     var {workouts, changeWorkouts, workoutLastClicked} = useContext(accessContext);
     // console.log(workouts);
-    var arr = Array.from(Array(15), () => new Array(15));  // 2d array sub, bc js is lame
+    var arr = Array.from(Array(15), () => new Array(0));  // 2d array sub, bc js is lame
     
     var [workout, changeWorkout] = useState({
         workoutName: "",
@@ -49,7 +49,7 @@ function CreateWorkout({phaseChange}){
 
     // console.log(workouts);
     useEffect(() =>{
-        if(workoutLastClicked > -1){
+        if(workoutLastClicked > -1){ // we prev set to -1 if it was a newworkout, else we load whatever one they clicked
             // console.log(workouts[0].workoutName);
             // console.log("clicked twice");
             changeWorkout({arr: workouts[workoutLastClicked].arr, workoutName: workouts[workoutLastClicked].workoutName});
@@ -59,7 +59,9 @@ function CreateWorkout({phaseChange}){
 
 
     function backtoHome(){
-        changeWorkouts([... workouts, workout]);  // save the workout if clicked finish else don't
+        if(workoutLastClicked == -1){   
+            changeWorkouts([... workouts, workout]);  // save the workout if clicked finish else don't
+        }
         phaseChange("Home");
     }
 
@@ -71,6 +73,7 @@ function CreateWorkout({phaseChange}){
     function nameChange(event){
         // workoutRoutine.workoutName = event.target.value;
         // console.log(workout);
+        console.log(workout);
         changeWorkout({... workout, workoutName: event.target.value}); // HERE!!
         // console.log(workout)
         // console.log(workoutRoutine);
@@ -85,7 +88,7 @@ function CreateWorkout({phaseChange}){
                     // console.log(item);
                     if (item[0] != null) {
                         // console.log("adding exercises???!!");
-                        // console.log(index);
+                        console.log(item);
                         return <Exercises exercise={item} changeWorkout={changeWorkout} workout={workout} exerciseIndex={index}></Exercises>
                     }
                 })}
@@ -116,11 +119,11 @@ function AddExerciseTab({workout, changeWorkout}){
 
 function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
     // console.log("yep were here");
-    // console.log(exercise);
+    console.log(exercise);
 
     function nameChange(event){
         var temp = workout.arr;
-        // console.log(temp);
+        // console.log(temp);  // need to change this to using array methods later
         temp[exerciseIndex][0] = event.target.value;  // [x][0] will be exercise name, [x][1...] will be sets 
         changeWorkout({... workout, arr: temp})
         // console.log(workout);
@@ -128,11 +131,50 @@ function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
         // changeWorkout({... workout, w: event.target.value});
     }
 
+    function addSet(){
+        exercise.push(["", ""]);
+        changeWorkout({... workout})
+        console.log(exercise);
+    }
+
     return(
         // <div className='addExercise2'><p>Nerd</p></div>
         // same general logic of adding exercies will be added here for sets
-        // before fix finish button adding multiple workouts
-        // make it to where you can create multiple workouts
-        <input type='text' className='addExercise2' placeholder={"New Exercise"} value={exercise[0]} onChange={nameChange}></input>
+        <div className='exercise-sets-container'>
+            <input type='text' className='addExercise2' placeholder={"New Exercise"} value={exercise[0]} onChange={nameChange}></input>
+            {exercise.map((item, index) => {
+                // console.log(item);
+                if(item != null && index != 0){
+                    console.log("here");
+                    return <Sets setNum={index} exercise={item} workout={workout} changeWorkout={changeWorkout}/>
+                }
+            })}
+            <div className='sets' onClick={addSet}><p>Add Set</p></div>
+        </div>
+    )
+}
+
+function Sets({setNum, exercise, workout, changeWorkout}){
+
+    console.log(exercise);
+    function lbsChange(event){
+        exercise[0] = event.target.value;
+        changeWorkout({... workout})
+    }
+
+    function repChange(event){
+        exercise[1] = event.target.value;
+        changeWorkout({... workout})
+    }
+
+    return (
+        <div className='sets2'>
+            <p style={{marginLeft: "3%", marginRight: "0%"}}>Set: {setNum}</p>
+            <p style={{marginLeft: "3%", marginRight: "14%"}}>Prev:</p>
+            <p style={{marginLeft: "3%", marginRight: "2%"}}>lbs:</p>
+            <input className='sets-input' value={exercise[0]} onChange={lbsChange}></input>
+            <p style={{marginLeft: "3%", marginRight: "2%"}}>reps:</p>
+            <input className='sets-input' value={exercise[1]} onChange={repChange}></input>
+        </div>
     )
 }
