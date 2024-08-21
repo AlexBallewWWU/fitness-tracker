@@ -52,7 +52,8 @@ function CreateWorkout({phaseChange}){
         if(workoutLastClicked > -1){ // we prev set to -1 if it was a newworkout, else we load whatever one they clicked
             // console.log(workouts[0].workoutName);
             // console.log("clicked twice");
-            changeWorkout({arr: workouts[workoutLastClicked].arr, workoutName: workouts[workoutLastClicked].workoutName});
+            changeWorkout({arr: structuredClone(workouts[workoutLastClicked].arr), workoutName: structuredClone(workouts[workoutLastClicked].workoutName)});
+            
             // workout.arr = workouts.arr;
         }
     }, []);
@@ -61,6 +62,14 @@ function CreateWorkout({phaseChange}){
     function backtoHome(){
         if(workoutLastClicked == -1){   
             changeWorkouts([... workouts, workout]);  // save the workout if clicked finish else don't
+        } else {
+            console.log(workout);
+            console.log(workouts);
+            workouts[workoutLastClicked].arr = workout.arr;
+            workouts[workoutLastClicked].workoutName = workout.workoutName;
+            changeWorkouts([... workouts]);
+            console.log(workouts);
+            // changeWorkouts({arr: workouts[workoutLastClicked].arr, workoutName: workouts[workoutLastClicked].workoutName});
         }
         phaseChange("Home");
     }
