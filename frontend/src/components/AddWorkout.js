@@ -127,7 +127,7 @@ function AddExerciseTab({workout, changeWorkout}){
 }
 
 function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
-    // console.log("yep were here");
+    // console.log("yep were here"); kkk
     console.log(exercise);
 
     function nameChange(event){
