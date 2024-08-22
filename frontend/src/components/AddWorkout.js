@@ -147,17 +147,21 @@ function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
     return(
         // <div className='addExercise2'><p>Nerd</p></div>
         // same general logic of adding exercies will be added here for sets
-        <div className='exercise-sets-container'>
-            <input type='text' className='addExercise2' placeholder={"New Exercise"} value={exercise[0]} onChange={nameChange}></input>
-            {exercise.map((item, index) => {
-                if(item != null && index != 0){
-                    setNum++;
-                    console.log("here");
-                    return <Sets setNum={index} exercise={item} workout={workout} changeWorkout={changeWorkout} allSets={exercise} setNUM={setNum}/>
-                }
-            })}
-            <div className='sets' onClick={addSet}><p>Add Set</p></div>
-
+        <div style={{width: '100%'}}>
+            <div className='exercise-sets-container'>
+                <input type='text' className='addExercise2' placeholder={"New Exercise"} value={exercise[0]} onChange={nameChange}></input>
+                <div className='deleteSet'><p style={{fontSize: "2.5vw"}}>X</p></div>
+            </div>
+                <div className='exercise-sets-container' style={{flexDirection: 'column'}}>
+                    {exercise.map((item, index) => {
+                        if(item != null && index != 0){
+                            setNum++;
+                            console.log("here");
+                            return <Sets setNum={index} exercise={item} workout={workout} changeWorkout={changeWorkout} allSets={exercise} setNUM={setNum}/>
+                        }
+                    })}
+                    <div className='sets' onClick={addSet}><p>Add Set</p></div>
+                </div>
         </div>
     )
 }
