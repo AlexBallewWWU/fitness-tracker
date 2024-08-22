@@ -152,15 +152,16 @@ function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
                 // console.log(item);
                 if(item != null && index != 0){
                     console.log("here");
-                    return <Sets setNum={index} exercise={item} workout={workout} changeWorkout={changeWorkout}/>
+                    return <Sets setNum={index} exercise={item} workout={workout} changeWorkout={changeWorkout} allSets={exercise}/>
                 }
             })}
             <div className='sets' onClick={addSet}><p>Add Set</p></div>
+
         </div>
     )
 }
 
-function Sets({setNum, exercise, workout, changeWorkout}){
+function Sets({setNum, exercise, workout, changeWorkout, allSets}){
 
     console.log(exercise);
     function lbsChange(event){
@@ -173,14 +174,24 @@ function Sets({setNum, exercise, workout, changeWorkout}){
         changeWorkout({... workout})
     }
 
+    function removeSet(){
+        console.log(allSets);
+        delete allSets[setNum];
+        console.log(allSets);
+        changeWorkout({... workout})
+    }
+
     return (
-        <div className='sets2'>
-            <p style={{marginLeft: "3%", marginRight: "0%"}}>Set: {setNum}</p>
-            <p style={{marginLeft: "3%", marginRight: "14%"}}>Prev:</p>
-            <p style={{marginLeft: "3%", marginRight: "2%"}}>lbs:</p>
-            <input className='sets-input' value={exercise[0]} onChange={lbsChange}></input>
-            <p style={{marginLeft: "3%", marginRight: "2%"}}>reps:</p>
-            <input className='sets-input' value={exercise[1]} onChange={repChange}></input>
+        <div className='sets-container'>
+            <div className='sets2'>
+                <p style={{marginLeft: "3%", marginRight: "0%"}}>Set: {setNum}</p>
+                <p style={{marginLeft: "3%", marginRight: "14%"}}>Prev:</p>
+                <p style={{marginLeft: "3%", marginRight: "2%"}}>lbs:</p>
+                <input className='sets-input' value={exercise[0]} onChange={lbsChange}></input>
+                <p style={{marginLeft: "3%", marginRight: "2%"}}>reps:</p>
+                <input className='sets-input' value={exercise[1]} onChange={repChange}></input>
+            </div>
+            <div className='deleteSet'><p style={{fontSize: "2.5vw"}} onClick={removeSet}>X</p></div>
         </div>
     )
 }

@@ -170,6 +170,29 @@ html, body, #root, .App {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+.sets-container{
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    /* flex-direction: column; */
+    justify-content: center;
+}
+
+.deleteSet{
+    background-color: red;
+    width: 4%;
+    text-align: center;
+    margin-top: 1%;
+    /* justify-content: center; */
+    border-radius: 20px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: white;
+    margin-left: 1%;
+    display: flex;
+}
+
 p{
     margin: auto;
 }
