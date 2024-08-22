@@ -4,8 +4,6 @@ import { useState, useContext } from 'react';
 import { accessContext } from '../App'
 export { CreateWorkout }
 
-var numExercises = 0;
-//
 export default function AddWorkout({phase, phaseChange, name, location}) {
 
     var {workoutLastClicked, changeLastClicked} = useContext(accessContext);
@@ -39,8 +37,8 @@ function CreateWorkout({phaseChange}){
     // console.log("making new workout");
     var {workouts, changeWorkouts, workoutLastClicked} = useContext(accessContext);
     // console.log(workouts);
-    var arr = Array.from(Array(15), () => new Array(0));  // 2d array sub, bc js is lame
-    
+    var arr = Array.from(Array(0), () => new Array(0));  // 2d array sub, bc js is lame
+
     var [workout, changeWorkout] = useState({
         workoutName: "",
         arr
@@ -114,10 +112,9 @@ function AddExerciseTab({workout, changeWorkout}){
         // test change
     // all this should do is add a value to map
     function addExercise(){
+
         var temp = workout.arr;
-        temp[numExercises][0] = "";  // [x][0] will be exercise name, [x][1...] will be sets 
-        // console.log(temp);
-        numExercises++;
+        temp.push([""]);
         changeWorkout({... workout, arr: temp})
     }
 
