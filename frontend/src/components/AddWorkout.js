@@ -126,6 +126,7 @@ function AddExerciseTab({workout, changeWorkout}){
 function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
     // console.log("yep were here"); kkk
     console.log(exercise);
+    var setNum = 0;
 
     function nameChange(event){
         var temp = workout.arr;
@@ -149,10 +150,10 @@ function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
         <div className='exercise-sets-container'>
             <input type='text' className='addExercise2' placeholder={"New Exercise"} value={exercise[0]} onChange={nameChange}></input>
             {exercise.map((item, index) => {
-                // console.log(item);
                 if(item != null && index != 0){
+                    setNum++;
                     console.log("here");
-                    return <Sets setNum={index} exercise={item} workout={workout} changeWorkout={changeWorkout} allSets={exercise}/>
+                    return <Sets setNum={index} exercise={item} workout={workout} changeWorkout={changeWorkout} allSets={exercise} setNUM={setNum}/>
                 }
             })}
             <div className='sets' onClick={addSet}><p>Add Set</p></div>
@@ -161,7 +162,7 @@ function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
     )
 }
 
-function Sets({setNum, exercise, workout, changeWorkout, allSets}){
+function Sets({setNum, exercise, workout, changeWorkout, allSets, setNUM}){
 
     console.log(exercise);
     function lbsChange(event){
@@ -184,7 +185,7 @@ function Sets({setNum, exercise, workout, changeWorkout, allSets}){
     return (
         <div className='sets-container'>
             <div className='sets2'>
-                <p style={{marginLeft: "3%", marginRight: "0%"}}>Set: {setNum}</p>
+                <p style={{marginLeft: "3%", marginRight: "0%"}}>Set: {setNUM}</p>
                 <p style={{marginLeft: "3%", marginRight: "14%"}}>Prev:</p>
                 <p style={{marginLeft: "3%", marginRight: "2%"}}>lbs:</p>
                 <input className='sets-input' value={exercise[0]} onChange={lbsChange}></input>
