@@ -6,33 +6,38 @@ export { CreateWorkout }
 
 export default function AddWorkout({phase, phaseChange, name, location}) {
 
-    var {workoutLastClicked, changeLastClicked} = useContext(accessContext);
+    var {workouts, changeWorkouts,workoutLastClicked, changeLastClicked} = useContext(accessContext);
+    var justDeleted = false;
 
-    function changeBackground(e) {
-        e.target.style.background = 'green';
-    }
-
-    function changeBackgroundBack(e) {
-        e.target.style.background = 'black';
-        e.target.style.color = 'white';
-    }
+    console.log(workouts);
 
     function phaseNewWorkout(){
         // need to find our location in array and change context hook to be the new number and then pass it to the other div
-        console.log(location);
-        changeLastClicked(location);
-        
-        phaseChange("newWorkout");
+        if(justDeleted == false){
+            console.log(location);
+            changeLastClicked(location);
+            
+            phaseChange("newWorkout");
+        }
+    }
+
+    function deleteWorkout(){
+        justDeleted = true;
+        console.log(workouts);
+        delete workouts[location];
+        console.log(workouts);
+        changeWorkouts([... workouts]);
+
     }
 
     return (
-        <div className='addNewWorkout' onMouseOver={changeBackground} onMouseLeave={changeBackgroundBack}
-            onClick={phaseNewWorkout}>
-                {name == "" ? "New Workout": name}
+        <div className='addNewWorkout' onClick={phaseNewWorkout}>
+            {name == "" ? "New Workout": name}
+            {location == -1 ? <div></div>: <div className='deleteWorkout' style={{paddingLeft: '.64%', paddingRight: '.69%'}} onClick={deleteWorkout}><p style={{fontSize: '5.5vw'}}>X</p></div>}
         </div>
     )
 }
-
+ 
 function CreateWorkout({phaseChange}){
     // console.log("making new workout");
     var {workouts, changeWorkouts, workoutLastClicked} = useContext(accessContext);
@@ -144,13 +149,22 @@ function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
         console.log(exercise);
     }
 
+    function removeExercise(){
+        console.log(workout);
+        console.log(exerciseIndex);
+        delete workout.arr[exerciseIndex];
+        // console.log(allSets);
+        changeWorkout({... workout})
+        console.log(workout);
+    }
+
     return(
         // <div className='addExercise2'><p>Nerd</p></div>
         // same general logic of adding exercies will be added here for sets
         <div style={{width: '100%'}}>
             <div className='exercise-sets-container'>
                 <input type='text' className='addExercise2' placeholder={"New Exercise"} value={exercise[0]} onChange={nameChange}></input>
-                <div className='deleteSet'><p style={{fontSize: "2.5vw"}}>X</p></div>
+                <div className='deleteExercise' onClick={removeExercise}><p style={{fontSize: "1.7vw"}}>delete</p></div>
             </div>
                 <div className='exercise-sets-container' style={{flexDirection: 'column'}}>
                     {exercise.map((item, index) => {
@@ -163,6 +177,7 @@ function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
                     <div className='sets' onClick={addSet}><p>Add Set</p></div>
                 </div>
         </div>
+
     )
 }
 

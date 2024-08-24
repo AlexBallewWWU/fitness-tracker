@@ -38,6 +38,11 @@ html, body, #root, .App {
     display: flex;
     align-items : center;
     justify-content: center;
+    /* position: relative; */
+}
+
+.addNewWorkout:hover{
+    background-color: green;
 }
 
 .workoutName{
@@ -159,6 +164,7 @@ html, body, #root, .App {
     /* flex-direction: column; */
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .sets-input{
@@ -178,20 +184,44 @@ html, body, #root, .App {
     align-items: center;
     /* flex-direction: column; */
     justify-content: center;
+    position: relative;
 }
 
 .deleteSet{
     background-color: red;
     width: 4%;
     text-align: center;
-    margin-top: 1%;
     /* justify-content: center; */
     border-radius: 20px;
     border-width: 6px;
     border-style: solid;
     border-color: white;
-    margin-left: 1%;
-    display: flex;
+    /* display: flex; */
+}
+
+.deleteExercise{
+    background-color: red;
+    text-align: center;
+    margin-top: 1%;
+    border-radius: 20px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: white;
+    position: absolute;
+    left: 74%;
+    /* top: 7%;
+    right: 16%; */
+}
+
+.deleteWorkout{
+    background-color: red;
+    text-align: center;
+    border-radius: 20px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: white;
+    position: absolute;
+    left: 75.4%;
 }
 
 p{
