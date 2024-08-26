@@ -4,30 +4,23 @@ import { useState, useContext } from 'react';
 import { accessContext } from '../App'
 export { CreateWorkout }
 
-export default function AddWorkout({phase, phaseChange, name, location}) {
+export default function AddWorkout({phaseChange, name, location}) {
 
-    var {workouts, changeWorkouts,workoutLastClicked, changeLastClicked} = useContext(accessContext);
-    var justDeleted = false;
-
-    console.log(workouts);
+    var {workouts, changeWorkouts, changeLastClicked} = useContext(accessContext);
+    var justDeleted = false;  // need this to make sure we don't save a deleted workout
 
     function phaseNewWorkout(){
         // need to find our location in array and change context hook to be the new number and then pass it to the other div
         if(justDeleted == false){
-            console.log(location);
             changeLastClicked(location);
-            
             phaseChange("newWorkout");
         }
     }
 
     function deleteWorkout(){
         justDeleted = true;
-        console.log(workouts);
         delete workouts[location];
-        console.log(workouts);
         changeWorkouts([... workouts]);
-
     }
 
     return (
@@ -39,56 +32,42 @@ export default function AddWorkout({phase, phaseChange, name, location}) {
 }
  
 function CreateWorkout({phaseChange}){
-    // console.log("making new workout");
-    var {workouts, changeWorkouts, workoutLastClicked} = useContext(accessContext);
-    // console.log(workouts);
-    var arr = Array.from(Array(0), () => new Array(0));  // 2d array sub, bc js is lame
 
+    var {workouts, changeWorkouts, workoutLastClicked} = useContext(accessContext);
+    var arr = Array.from(Array(0), () => new Array(0));  // 2d array
+
+    // use this for saving a current workout
     var [workout, changeWorkout] = useState({
         workoutName: "",
         arr
     });
 
-
-    // console.log(workouts);
     useEffect(() =>{
         if(workoutLastClicked > -1){ // we prev set to -1 if it was a newworkout, else we load whatever one they clicked
-            // console.log(workouts[0].workoutName);
-            // console.log("clicked twice");
-            changeWorkout({arr: structuredClone(workouts[workoutLastClicked].arr), workoutName: structuredClone(workouts[workoutLastClicked].workoutName)});
-            
-            // workout.arr = workouts.arr;
+            changeWorkout({arr: structuredClone(workouts[workoutLastClicked].arr),  // save a clone as to not automatically update changes
+                workoutName: structuredClone(workouts[workoutLastClicked].workoutName)});
         }
     }, []);
 
-
+    // function to return to home screen
     function backtoHome(){
-        if(workoutLastClicked == -1){   
+        if(workoutLastClicked == -1){  // -1 means first time saving workout
             changeWorkouts([... workouts, workout]);  // save the workout if clicked finish else don't
-        } else {
-            console.log(workout);
-            console.log(workouts);
+        } else {   // update changes
             workouts[workoutLastClicked].arr = workout.arr;
             workouts[workoutLastClicked].workoutName = workout.workoutName;
             changeWorkouts([... workouts]);
-            console.log(workouts);
-            // changeWorkouts({arr: workouts[workoutLastClicked].arr, workoutName: workouts[workoutLastClicked].workoutName});
         }
         phaseChange("Home");
     }
 
+    // cancel workout and dont't update changes
     function cancel(){
-        // console.log(workout);
         phaseChange("Home");
     }
 
     function nameChange(event){
-        // workoutRoutine.workoutName = event.target.value;
-        // console.log(workout);
-        console.log(workout);
-        changeWorkout({... workout, workoutName: event.target.value}); // HERE!!
-        // console.log(workout)
-        // console.log(workoutRoutine);
+        changeWorkout({... workout, workoutName: event.target.value});
     }
 
     return (
@@ -97,10 +76,7 @@ function CreateWorkout({phaseChange}){
             <div className='newWorkout'>
                 <input type='text' className='workoutName' placeholder='Workout Name' value={workout.workoutName} onChange={nameChange}></input>
                 {workout.arr.map((item, index) => {
-                    // console.log(item);
                     if (item[0] != null) {
-                        // console.log("adding exercises???!!");
-                        console.log(item);
                         return <Exercises exercise={item} changeWorkout={changeWorkout} workout={workout} exerciseIndex={index}></Exercises>
                     }
                 })}
@@ -112,12 +88,9 @@ function CreateWorkout({phaseChange}){
 }
 
 function AddExerciseTab({workout, changeWorkout}){
-    // console.log("adding exercise");
-    // console.log(workout);
-        // test change
-    // all this should do is add a value to map
-    function addExercise(){
 
+    // all this does is add a value to the array to later map
+    function addExercise(){
         var temp = workout.arr;
         temp.push([""]);
         changeWorkout({... workout, arr: temp})
@@ -129,38 +102,28 @@ function AddExerciseTab({workout, changeWorkout}){
 }
 
 function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
-    // console.log("yep were here"); kkk
-    console.log(exercise);
-    var setNum = 0;
+    
+    var setNum = 0;  // need this later for tracking what set num we are on
 
     function nameChange(event){
         var temp = workout.arr;
-        // console.log(temp);  // need to change this to using array methods later
         temp[exerciseIndex][0] = event.target.value;  // [x][0] will be exercise name, [x][1...] will be sets 
         changeWorkout({... workout, arr: temp})
-        // console.log(workout);
-        // need to find a way to change exercise value across board
-        // changeWorkout({... workout, w: event.target.value});
     }
 
+    // add another value to array to map
     function addSet(){
         exercise.push(["", ""]);
         changeWorkout({... workout})
-        console.log(exercise);
     }
 
+    // remove array value and update state
     function removeExercise(){
-        console.log(workout);
-        console.log(exerciseIndex);
         delete workout.arr[exerciseIndex];
-        // console.log(allSets);
         changeWorkout({... workout})
-        console.log(workout);
     }
 
     return(
-        // <div className='addExercise2'><p>Nerd</p></div>
-        // same general logic of adding exercies will be added here for sets
         <div style={{width: '100%'}}>
             <div className='exercise-sets-container'>
                 <input type='text' className='addExercise2' placeholder={"New Exercise"} value={exercise[0]} onChange={nameChange}></input>
@@ -170,7 +133,6 @@ function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
                     {exercise.map((item, index) => {
                         if(item != null && index != 0){
                             setNum++;
-                            console.log("here");
                             return <Sets setNum={index} exercise={item} workout={workout} changeWorkout={changeWorkout} allSets={exercise} setNUM={setNum}/>
                         }
                     })}
@@ -183,7 +145,6 @@ function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
 
 function Sets({setNum, exercise, workout, changeWorkout, allSets, setNUM}){
 
-    console.log(exercise);
     function lbsChange(event){
         exercise[0] = event.target.value;
         changeWorkout({... workout})
@@ -195,9 +156,7 @@ function Sets({setNum, exercise, workout, changeWorkout, allSets, setNUM}){
     }
 
     function removeSet(){
-        console.log(allSets);
         delete allSets[setNum];
-        console.log(allSets);
         changeWorkout({... workout})
     }
 

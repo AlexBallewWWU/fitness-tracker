@@ -9,6 +9,22 @@ var access = '';
 
 export var accessContext = React.createContext();
 
+// How workouts are stored:
+
+//  workouts[
+//    {
+//      "workoutName", 
+//      exercises[
+//        "exerciseName", sets[
+//          [lbs, reps], . . . ]
+//    }
+//  , . . . ] 
+
+// English: An array which holds all workouts stored as objects
+// each object contains a workoutname and an array of exercises
+// each exercise first value is its name (should've proably been an object) the other value is a 2 value array
+// the 2 value array holds lbs and reps
+
 function App() {
 
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -16,7 +32,9 @@ function App() {
   const [workouts, changeWorkouts] = useState([]);
   const [workoutLastClicked, changeLastClicked] = useState(0);
 
-  // include useEffect for efficiency as we only need this run once
+  console.log(workouts);
+
+  // include useEffect for efficiency as we only need this run once on first load
   useEffect(() => {
     document.body.style.backgroundColor = 'black';
     requestAuth(access).then( (res) => {
