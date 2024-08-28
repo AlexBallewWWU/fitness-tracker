@@ -36,6 +36,18 @@ function App() {
 
   // include useEffect for efficiency as we only need this run once on first load
   useEffect(() => {
+
+    fetch("/api").then(
+      response => response.json()
+    ).then(
+      data => {
+        // setBackendData(data)
+        console.log(workouts);
+        console.log(data);
+        changeWorkouts(data);
+      }
+    )
+
     document.body.style.backgroundColor = 'black';
     requestAuth(access).then( (res) => {
       access = res;
@@ -75,14 +87,14 @@ function App() {
 //   const [backendData, setBackendData] = useState([{}])
 
 //   useEffect(() => {
-//     fetch("/api").then(
-//       response => response.json()
-//     ).then(
-//       data => {
-//         setBackendData(data)
-//         console.log(data);
-//       }
-//     )
+    // fetch("/api").then(
+    //   response => response.json()
+    // ).then(
+    //   data => {
+    //     setBackendData(data)
+    //     console.log(data);
+    //   }
+    // )
 
 //   }, [])
 

@@ -11,7 +11,8 @@ app.use(bodyParser.json());
 // Process the form data
 
 app.get('/api', (req, res) => { 
-    res.json({"users": ["userOne", "userTwo", "userThree"]});
+    // res.json({"workouts": ["Monday"]});
+    res.json([{workoutName: "Monday"}]);
 });
 
 // Start the server
