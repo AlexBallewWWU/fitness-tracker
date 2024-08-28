@@ -12,7 +12,8 @@ app.use(bodyParser.json());
 
 app.get('/api', (req, res) => { 
     // res.json({"workouts": ["Monday"]});
-    res.json([{workoutName: "Monday"}]);
+    var arr = Array.from(Array(0), () => new Array(0));
+    res.json([{workoutName: "Monday", arr}]);
 });
 
 // Start the server
