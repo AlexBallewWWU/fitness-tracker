@@ -127,7 +127,7 @@ function Exercises({exercise, changeWorkout, workout, exerciseIndex}){
         <div style={{width: '100%'}}>
             <div className='exercise-sets-container'>
                 <input type='text' className='addExercise2' placeholder={"New Exercise"} value={exercise[0]} onChange={nameChange}></input>
-                <div className='deleteExercise' onClick={removeExercise}><p style={{fontSize: "1.7vw"}}>delete</p></div>
+                <div className='deleteExercise' onClick={removeExercise}><p style={{fontSize: "1.5vw"}}>delete</p></div>
             </div>
                 <div className='exercise-sets-container' style={{flexDirection: 'column'}}>
                     {exercise.map((item, index) => {
