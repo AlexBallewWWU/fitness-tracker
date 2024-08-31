@@ -14,6 +14,7 @@ app.get('/api', (req, res) => {
     // res.json({"workouts": ["Monday"]});
     var arr = Array.from(Array(0), () => new Array(0));
     res.json([{workoutName: "Monday", arr}]);
+    console.log("api called")
 });
 
 // Start the server
