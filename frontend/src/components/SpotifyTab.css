@@ -4,8 +4,8 @@
     background-color: black;
     margin: auto;
     margin-top: 5%;
-    border-radius: 70px;
-    border-width: 40px;
+    border-radius: 20px;
+    border-width: 8px;
     border-style: solid;
     border-color: white;
     display : flex; /* by default works in rows left to right which can be seen if this removed */
