@@ -37,7 +37,7 @@ function App() {
   // include useEffect for efficiency as we only need this run once on first load
   useEffect(() => {
 
-    fetch("/api").then(
+    fetch("https://oftluv7372xbqaamkgcqo7p6tm0mjxxq.lambda-url.us-east-2.on.aws/api").then(
       response => response.json()
     ).then(
       data => {
