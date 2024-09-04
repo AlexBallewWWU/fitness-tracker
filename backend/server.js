@@ -2,6 +2,7 @@
 
 
 const express = require('express');
+const serverless = require("serverless-http");
 const app = express();
 const bodyParser = require('body-parser');
 
@@ -18,7 +19,9 @@ app.get('/api', (req, res) => {
 });
 
 // Start the server
-const port = 5000;
-app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
-});
+// const port = 5000;
+// app.listen(port, () => {
+//     console.log(`Server started on port ${port}`);
+// });
+
+module.exports.handler = serverless(app);
