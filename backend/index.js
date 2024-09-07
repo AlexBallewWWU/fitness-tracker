@@ -13,10 +13,20 @@ app.use(express.json());
 
 app.get('/hello', (req, res) => { 
     // res.json({"workouts": ["Monday"]});
-    var arr = Array.from(Array(0), () => new Array(0));
-    res.json([{workoutName: "Monday", arr}]);
-    console.log("api called")
-    // res.send("Hello World!");
+    const response = {
+        statusCode: 200,
+        headers: {
+            "Access-Control-Allow-Headers" : "Content-Type",
+            "Access-Control-Allow-Origin": "https://master.d38l1ktvuoyhfb.amplifyapp.com",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+        },
+        body: JSON.stringify('Hello from Lambda!'),
+    };
+    // return response;
+    // var arr = Array.from(Array(0), () => new Array(0));
+    // res.json([{workoutName: "Monday", arr}]);
+    // console.log("api called")
+    res.send(response);
 });
 
 // Start the server
