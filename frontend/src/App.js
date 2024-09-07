@@ -44,7 +44,7 @@ function App() {
         // setBackendData(data)
         console.log(workouts);
         console.log(data);
-        // changeWorkouts(data);
+        changeWorkouts(data);
       }
     )
 
