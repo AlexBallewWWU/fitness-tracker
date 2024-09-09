@@ -47,7 +47,7 @@ function App() {
         changeWorkouts(data);
       }
     )
-
+//
     document.body.style.backgroundColor = 'black';
     requestAuth(access).then( (res) => {
       access = res;
