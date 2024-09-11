@@ -1,5 +1,15 @@
 // import userRoutes from './routes/users.js'
 
+const {
+    createPool
+} = require('mysql');
+
+const pool = createPool({
+    host:"sql3.freesqldatabase.com",
+    user:"sql3730463",
+    password:"INqXtqtUM9",
+    connectionLimit: 10
+})
 
 const express = require("express");
 const serverless = require("serverless-http");
@@ -25,6 +35,12 @@ app.get('/hello', (req, res) => {
     //     body: JSON.stringify('Hello from Lambda!'),
     // };
     // return response;
+    pool.query('select * from sql3730463.LastWorkout', (err, result, fields) =>{
+        if(err){
+            return console.log(err);
+        } 
+        return console.log(result);
+    })
     var arr = Array.from(Array(0), () => new Array(0));
     res.json([{workoutName: "Monday", arr}]);
     // console.log("api called")
