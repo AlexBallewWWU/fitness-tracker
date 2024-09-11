@@ -37,9 +37,12 @@ function App() {
   // include useEffect for efficiency as we only need this run once on first load
   useEffect(() => {
 
-    fetch("https://iz0auu3tbh.execute-api.us-east-2.amazonaws.com/prod/hello").then(
-      response => response.json()
-    ).then(
+    // fetch("https://iz0auu3tbh.execute-api.us-east-2.amazonaws.com/prod/hello").then(
+    //   response => response.json()
+    // ).then(
+      fetch("/hello").then(
+        response => response.json()
+      ).then(
       data => {
         // setBackendData(data)
         console.log(workouts);
