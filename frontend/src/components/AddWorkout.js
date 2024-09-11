@@ -49,11 +49,31 @@ function CreateWorkout({phaseChange}){
         }
     }, []);
 
-    // function to return to home screen
+    // function to return to home screen ADD SOMETHING FOR CHECKING DUPLICATE NAMES
     function backtoHome(){
         if(workoutLastClicked == -1){  // -1 means first time saving workout
+            console.log(workout.arr);
+            // post request because we're just adding new data
+            fetch("/AddWorkout", {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    workoutName: workout.workoutName,
+                    exercises: workout.arr
+                })
+              }).then(
+                response => response.json()
+              ). then( // print response in json to screen
+                data => {
+                    console.log(data)  // error check
+                    if(data.statusCode != 200){
+                        alert("server error");
+                    }
+                }
+              )
             changeWorkouts([... workouts, workout]);  // save the workout if clicked finish else don't
         } else {   // update changes
+            // put request because we are modifying and adding new data
             workouts[workoutLastClicked].arr = workout.arr;
             workouts[workoutLastClicked].workoutName = workout.workoutName;
             changeWorkouts([... workouts]);
@@ -66,6 +86,7 @@ function CreateWorkout({phaseChange}){
         phaseChange("Home");
     }
 
+    // add later feature for making workout names unique, to use as primary key in server
     function nameChange(event){
         changeWorkout({... workout, workoutName: event.target.value});
     }
