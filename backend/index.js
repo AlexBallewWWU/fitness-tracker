@@ -51,11 +51,39 @@ app.get('/hello', (req, res) => {
 
 // post request to add a new workout
 app.post('/AddWorkout', (req, res) => {
+
+    // query to add the workoutname to server
     pool.query('insert into sql3730463.Workout (workout_name) values ("'+ req.body.workoutName + '")', (err, result, fields) =>{
         if(err){
             return console.log(err);
         }
     })
+    
+    // query to add all the exercises to sever
+    for(var i = 0; i < req.body.exercises.length; i++){
+        pool.query('insert into sql3730463.Exercises (workout_name, exercise_name) values ("' + 
+            req.body.workoutName + '", "' + req.body.exercises[i][0] + '")', (err, result, fields) =>{
+            if(err){
+                return console.log(err);
+            }
+        })
+    }
+
+    // query to add all the sets to the server
+    for(var i = 0; i < req.body.exercises.length; i++){
+        for(var j = 1; j < req.body.exercises[i].length; j++){
+            var temp = req.body.exercises[i][j];
+            pool.query('insert into sql3730463.Sets (workout_name, exercise_name, set_num, lbs, reps) values ("' + 
+                req.body.workoutName + '", "' + req.body.exercises[i][0] + '", "' + j + '", "' + temp[0] + '", "' + temp[1] +
+                '")', (err, result, fields) =>{
+                if(err){
+                    return console.log(err);
+                }
+            })
+        }
+
+    }
+
     console.log(req.body);
     const response = {
         statusCode: 200
