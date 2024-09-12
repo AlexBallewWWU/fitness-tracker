@@ -23,37 +23,54 @@ app.use(express.json());
 
 
 // get request to grab all data from server and put in formated storage to be displayed by front end
-app.get('/hello', (req, res) => { 
+app.get('/Workouts', (req, res) => { 
         // 1 query to select all workoutnames
     // store in an array al write more queries for each one to get their data
-    // res.json({"workouts": ["Monday"]});
-    // const response = {
-    //     statusCode: 200,
-    //     headers: {
-    //         "Access-Control-Allow-Headers" : "Content-Type",
-    //         "Access-Control-Allow-Origin": "*",
-    //         "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
-    //     },
-    //     body: JSON.stringify('Hello from Lambda!'),
-    // };
-    // return response;
-    // pool.query('select * from sql3730463.LastWorkout', (err, result, fields) =>{
-    //     if(err){
-    //         return console.log(err);
-    //     } 
-    //     return console.log(result);
-    // })
-    var arr = Array.from(Array(0), () => new Array(0));
-    res.json([{workoutName: "Monday", arr}]);
-    // console.log("api called")
-    // res.send(response);
+    // var arr = Array.from(Array(0), () => new Array(0));
+    var workouts = [];
+
+    pool.query('select * from sql3730463.Workout', (err, result, fields) => {
+        if(err){
+            return console.log(err);
+        }
+        return findWorkoutNames(JSON.parse(JSON.stringify(result)));
+    });
+
+    function findWorkoutNames(workoutNames){
+        // console.log("ayo")
+        // console.log(result[0].workout_name);
+
+        // populate all the workout names in the array 
+        for(var i = 0; i < workoutNames.length; i++){
+            var arr = Array.from(Array(0), () => new Array(0));
+            workouts.push({workoutName: workoutNames[i].workout_name, arr});
+        }
+
+        // populate all the exercise names in the array
+        for(var i = 0; i < workoutNames.length; i++){
+            pool.query('select * from sql3730463.Exercises where sql3730463.Exercises.workout_name = "' + workoutNames[i].workout_name + '"', (err, result, fields) => {
+                if(err){
+                    return console.log(err);
+                }
+                return findExerciseNames(result);
+            });
+        }
+
+
+    }
+
+    function findExerciseNames(exerciseNames){
+
+    }
+
+
 });
 
 // post request to add a new workout
 app.post('/AddWorkout', (req, res) => {
 
     // query to add the workoutname to server
-    pool.query('insert into sql3730463.Workout (workout_name) values ("'+ req.body.workoutName + '")', (err, result, fields) =>{
+    pool.query('insert into sql3730463.Workout (workout_name) values ("'+ req.body.workoutName + '")', (err, result, fields) => {
         if(err){
             return console.log(err);
         }
@@ -62,7 +79,7 @@ app.post('/AddWorkout', (req, res) => {
     // query to add all the exercises to sever
     for(var i = 0; i < req.body.exercises.length; i++){
         pool.query('insert into sql3730463.Exercises (workout_name, exercise_name) values ("' + 
-            req.body.workoutName + '", "' + req.body.exercises[i][0] + '")', (err, result, fields) =>{
+            req.body.workoutName + '", "' + req.body.exercises[i][0] + '")', (err, result, fields) => {
             if(err){
                 return console.log(err);
             }
@@ -75,7 +92,7 @@ app.post('/AddWorkout', (req, res) => {
             var temp = req.body.exercises[i][j];
             pool.query('insert into sql3730463.Sets (workout_name, exercise_name, set_num, lbs, reps) values ("' + 
                 req.body.workoutName + '", "' + req.body.exercises[i][0] + '", "' + j + '", "' + temp[0] + '", "' + temp[1] +
-                '")', (err, result, fields) =>{
+                '")', (err, result, fields) => {
                 if(err){
                     return console.log(err);
                 }
