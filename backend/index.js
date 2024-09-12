@@ -24,6 +24,7 @@ app.use(express.json());
 
 // get request to grab all data from server and put in formated storage to be displayed by front end
 app.get('/Workouts', (req, res) => { 
+    var exerciseNameQueryNum = 0;
         // 1 query to select all workoutnames
     // store in an array al write more queries for each one to get their data
     // var arr = Array.from(Array(0), () => new Array(0));
@@ -37,12 +38,10 @@ app.get('/Workouts', (req, res) => {
     });
 
     function findWorkoutNames(workoutNames){
-        // console.log("ayo")
-        // console.log(result[0].workout_name);
 
         // populate all the workout names in the array 
         for(var i = 0; i < workoutNames.length; i++){
-            var arr = Array.from(Array(0), () => new Array(0));
+            var arr = [];
             workouts.push({workoutName: workoutNames[i].workout_name, arr});
         }
 
@@ -52,15 +51,37 @@ app.get('/Workouts', (req, res) => {
                 if(err){
                     return console.log(err);
                 }
-                return findExerciseNames(result);
+                return findExerciseNames(JSON.parse(JSON.stringify(result)), i, workoutNames.length - 1);
             });
         }
-
-
     }
 
-    function findExerciseNames(exerciseNames){
+    function findExerciseNames(exerciseNames, currentQueryNum, maxQueries){
+        var arr = workouts[exerciseNameQueryNum].arr;
+        // console.log(exerciseNameQueryNum);
+        // console.log(workouts);
+        // arr.push("penis")
+        // console.log(arr);
 
+
+        for(var i = 0; i < exerciseNames.length; i++){
+            var temp = [];
+            temp.push(exerciseNames[i].exercise_name);
+            arr.push(temp);
+        }
+        console.log(workouts[0].arr);
+        // console.log("here");
+        // console.log(arr);
+        console.log(maxQueries + " " + exerciseNameQueryNum)
+        if(maxQueries == exerciseNameQueryNum){
+            console.log("here");
+            findSets();
+        }
+        exerciseNameQueryNum++;
+    }
+
+    function findSets(){
+        res.send(workouts);
     }
 
 
@@ -101,7 +122,7 @@ app.post('/AddWorkout', (req, res) => {
 
     }
 
-    console.log(req.body);
+    // console.log(req.body);
     const response = {
         statusCode: 200
     }
