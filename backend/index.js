@@ -22,13 +22,32 @@ const app = express();
 app.use(express.json());
 
 
+// ISSUES: we need to be able 
+
 // get request to grab all data from server and put in formated storage to be displayed by front end
 app.get('/Workouts', (req, res) => { 
-    var exerciseNameQueryNum = 0;
+    var currentCount = 0;
+    var totalDataAmount;
         // 1 query to select all workoutnames
     // store in an array al write more queries for each one to get their data
     // var arr = Array.from(Array(0), () => new Array(0));
     var workouts = [];
+
+    pool.query('select (select count(*) from sql3730463.Workout) + (select count(*) from sql3730463.Sets) + (select count(*) from sql3730463.Exercises) as totalCount', 
+        (err, result, fields) => {
+
+        if(err){
+            return console.log(err);
+        }
+        return updateTotalExercises(JSON.parse(JSON.stringify(result)));
+    });
+
+    function updateTotalExercises(result){
+        console.log("start");
+        console.log(result);
+        totalDataAmount = result[0].totalCount;
+    }
+
 
     pool.query('select * from sql3730463.Workout', (err, result, fields) => {
         if(err){
@@ -42,56 +61,129 @@ app.get('/Workouts', (req, res) => {
         // populate all the workout names in the array 
         for(var i = 0; i < workoutNames.length; i++){
             var arr = [];
-            workouts.push({workoutName: workoutNames[i].workout_name, arr});
+            workouts[workoutNames[i].workout_num] = {workoutName: workoutNames[i].workout_name, arr};
+            currentCount++;
         }
 
+        if(currentCount == totalDataAmount){
+            console.log("here1");
+            res.send(workouts);
+        }
+
+        // console.log(workoutNames.length)
         // populate all the exercise names in the array
         for(var i = 0; i < workoutNames.length; i++){
-            pool.query('select * from sql3730463.Exercises where sql3730463.Exercises.workout_name = "' + workoutNames[i].workout_name + '"', (err, result, fields) => {
+            pool.query('select * from sql3730463.Exercises natural join sql3730463.Workout where workout_name = "' + workoutNames[i].workout_name + '"', (err, result, fields) => {
                 if(err){
                     return console.log(err);
                 }
-                return findExerciseNames(JSON.parse(JSON.stringify(result)), i, workoutNames.length - 1);
+                const temp = JSON.parse(JSON.stringify(result));
+                return findExerciseNames(JSON.parse(JSON.stringify(result)), workoutNames);
             });
         }
     }
 
-    function findExerciseNames(exerciseNames, currentQueryNum, maxQueries){
-        var arr = workouts[exerciseNameQueryNum].arr;
-        // console.log(exerciseNameQueryNum);
-        // console.log(workouts);
-        // arr.push("penis")
-        // console.log(arr);
+    // fill in the exercises for a workout
+    function findExerciseNames(exerciseTable, workoutTable){
+        // console.log(exerciseTable.we)
+        var arr = workouts[exerciseTable[0].workout_num].arr;
 
-
-        for(var i = 0; i < exerciseNames.length; i++){
+        for(var i = 0; i < exerciseTable.length; i++){
             var temp = [];
-            temp.push(exerciseNames[i].exercise_name);
-            arr.push(temp);
+            temp.push(exerciseTable[i].exercise_name);
+            arr[exerciseTable[i].exercise_num] = temp;
+            currentCount++;
         }
-        console.log(workouts[0].arr);
-        // console.log("here");
-        // console.log(arr);
-        console.log(maxQueries + " " + exerciseNameQueryNum)
-        if(maxQueries == exerciseNameQueryNum){
-            console.log("here");
-            findSets();
+
+        if(currentCount == totalDataAmount){
+            console.log("here2");
+            res.send(workouts);
         }
-        exerciseNameQueryNum++;
+        
+        // loop through all exercises finding the set amounts for each one
+        for(var i = 0; i < exerciseTable.length; i++){
+            pool.query('select * from sql3730463.Sets natural join sql3730463.Exercises natural join sql3730463.Workout where sql3730463.Sets.workout_name = "' + 
+                exerciseTable[0].workout_name + '" and sql3730463.Sets.exercise_name = "' + exerciseTable[i].exercise_name + '"', (err, result, fields) => {
+                if(err){
+                    return console.log(err);
+                }
+                return findSets(JSON.parse(JSON.stringify(result)));
+                // return console.log(JSON.parse(JSON.stringify(result)));
+            });
+        }
     }
 
-    function findSets(){
-        res.send(workouts);
+    function findSets(completeTable){
+        if(completeTable.length < 1){
+            return;
+        }
+        console.log("SETS");
+        for(var i = 0; i < completeTable.length; i++){
+            workouts[completeTable[0].workout_num].arr[completeTable[i].exercise_num][completeTable[i].set_num + 1] = ([completeTable[i].lbs, completeTable[i].reps]);
+            currentCount++;
+        }
+        console.log(workouts);
+
+        console.log(currentCount);
+        console.log(totalDataAmount);
+        if(currentCount == totalDataAmount){
+            console.log("here3");
+            res.send(workouts);
+        }
     }
 
+    // NOTE: could better runtime by having functions execute concurrently, try later
+    // function findExerciseNames(exerciseNames, workoutNames){
+    //     var arr = workouts[workoutNameQueryNum].arr;
 
+    //     for(var i = 0; i < exerciseNames.length; i++){
+    //         var temp = [];
+    //         temp.push(exerciseNames[i].exercise_name);
+    //         arr.push(temp);
+    //     }
+    //     // write a query to find sets for exercise, need a loop for workout
+    //     for(var i = 0; i < exerciseNames.length; i++){
+            // pool.query('select lbs, reps from sql3730463.Sets where sql3730463.Sets.workout_name = "' + 
+            //     workoutNames[workoutNameQueryNum].workout_name + '" and sql3730463.Sets.exercise_name = "' + exerciseNames[i].exercise_name + '"', (err, result, fields) => {
+            //     if(err){
+            //         return console.log(err);
+            //     }
+            //     // return findSets(JSON.parse(JSON.stringify(result)), exerciseNames, workoutNames);
+            //     return upt();
+            // });
+    //     }
+
+    // }
+
+
+
+
+
+
+    // fill in values for sets
+    // function findSets(sets, exerciseNames, workoutNames){
+    //     for(var i = 1; i < sets.length + 1; i++){
+    //         // console.log(workoutNameQueryNum2);
+    //         // console.log(exerciseNameQueryNum);
+    //         workouts[workoutNameQueryNum2].arr[exerciseNameQueryNum][i] = [sets[i - 1].lbs, sets[i - 1].reps];
+    //     }
+    //     exerciseNameQueryNum++;
+    //     if(exerciseNameQueryNum == exerciseNames.length){
+    //         exerciseNameQueryNum = 0;
+    //         workoutNameQueryNum2++;
+    //     }
+    //     if(workoutNameQueryNum2 == workoutNames.length){
+    //         res.send(workouts);
+    //     }
+    // }
 });
 
 // post request to add a new workout
 app.post('/AddWorkout', (req, res) => {
 
     // query to add the workoutname to server
-    pool.query('insert into sql3730463.Workout (workout_name) values ("'+ req.body.workoutName + '")', (err, result, fields) => {
+    pool.query('insert into sql3730463.Workout (workout_name, workout_num) values ("'+ req.body.workoutName + '", ' + req.body.workoutNum 
+        + ')', (err, result, fields) => {
         if(err){
             return console.log(err);
         }
@@ -99,8 +191,8 @@ app.post('/AddWorkout', (req, res) => {
     
     // query to add all the exercises to sever
     for(var i = 0; i < req.body.exercises.length; i++){
-        pool.query('insert into sql3730463.Exercises (workout_name, exercise_name) values ("' + 
-            req.body.workoutName + '", "' + req.body.exercises[i][0] + '")', (err, result, fields) => {
+        pool.query('insert into sql3730463.Exercises (workout_name, exercise_name, exercise_num) values ("' + 
+            req.body.workoutName + '", "' + req.body.exercises[i][0] + '", "' + i + '")', (err, result, fields) => {
             if(err){
                 return console.log(err);
             }
@@ -110,6 +202,7 @@ app.post('/AddWorkout', (req, res) => {
     // query to add all the sets to the server
     for(var i = 0; i < req.body.exercises.length; i++){
         for(var j = 1; j < req.body.exercises[i].length; j++){
+            console.log("adding sets");
             var temp = req.body.exercises[i][j];
             pool.query('insert into sql3730463.Sets (workout_name, exercise_name, set_num, lbs, reps) values ("' + 
                 req.body.workoutName + '", "' + req.body.exercises[i][0] + '", "' + j + '", "' + temp[0] + '", "' + temp[1] +

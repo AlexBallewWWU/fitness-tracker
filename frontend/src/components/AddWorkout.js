@@ -59,7 +59,8 @@ function CreateWorkout({phaseChange}){
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     workoutName: workout.workoutName,
-                    exercises: workout.arr
+                    exercises: workout.arr,
+                    workoutNum: workouts.length
                 })
               }).then(
                 response => response.json()
