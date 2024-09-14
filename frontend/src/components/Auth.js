@@ -1,7 +1,7 @@
 export { requestAuth }
 
-// var redirect_uri = "https://master.d38l1ktvuoyhfb.amplifyapp.com"
-var redirect_uri = "http://127.0.0.1:3000"
+var redirect_uri = "https://master.d38l1ktvuoyhfb.amplifyapp.com"
+// var redirect_uri = "http://127.0.0.1:3000"
 var client_id = 'e65e883011ca4cafbd3b38e703cc92ba';
 var client_secret = 'e6b9e6a148aa40bfb1bb7dc658a288c2';
 var access = '';
