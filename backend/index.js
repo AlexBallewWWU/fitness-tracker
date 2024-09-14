@@ -43,8 +43,8 @@ app.get('/Workouts', (req, res) => {
     });
 
     function updateTotalExercises(result){
-        console.log("start");
-        console.log(result);
+        // console.log("start");
+        // console.log(result);
         totalDataAmount = result[0].totalCount;
     }
 
@@ -66,7 +66,7 @@ app.get('/Workouts', (req, res) => {
         }
 
         if(currentCount == totalDataAmount){
-            console.log("here1");
+            // console.log("here1");
             res.send(workouts);
         }
 
@@ -96,7 +96,7 @@ app.get('/Workouts', (req, res) => {
         }
 
         if(currentCount == totalDataAmount){
-            console.log("here2");
+            // console.log("here2");
             res.send(workouts);
         }
         
@@ -117,15 +117,15 @@ app.get('/Workouts', (req, res) => {
         if(completeTable.length < 1){
             return;
         }
-        console.log("SETS");
+        // console.log("SETS");
         for(var i = 0; i < completeTable.length; i++){
             workouts[completeTable[0].workout_num].arr[completeTable[i].exercise_num][completeTable[i].set_num + 1] = ([completeTable[i].lbs, completeTable[i].reps]);
             currentCount++;
         }
-        console.log(workouts);
+        // console.log(workouts);
 
-        console.log(currentCount);
-        console.log(totalDataAmount);
+        // console.log(currentCount);
+        // console.log(totalDataAmount);
         if(currentCount == totalDataAmount){
             console.log("here3");
             res.send(workouts);
@@ -202,7 +202,7 @@ app.post('/AddWorkout', (req, res) => {
     // query to add all the sets to the server
     for(var i = 0; i < req.body.exercises.length; i++){
         for(var j = 1; j < req.body.exercises[i].length; j++){
-            console.log("adding sets");
+            // console.log("adding sets");
             var temp = req.body.exercises[i][j];
             pool.query('insert into sql3730463.Sets (workout_name, exercise_name, set_num, lbs, reps) values ("' + 
                 req.body.workoutName + '", "' + req.body.exercises[i][0] + '", "' + j + '", "' + temp[0] + '", "' + temp[1] +
@@ -221,6 +221,37 @@ app.post('/AddWorkout', (req, res) => {
     }
     res.send(response);
 })
+
+app.delete('/DeleteWorkout', (req, res) =>{
+    console.log(req.body);
+    pool.query('delete from sql3730463.Workout where sql3730463.Workout.workout_name = "' + req.body.workoutName + '"', 
+        (err, result, fields) => {
+
+        if(err){
+            return console.log(err);
+        }
+        // return updateTotalExercises(JSON.parse(JSON.stringify(result)));
+    });
+
+    pool.query('delete from sql3730463.Exercises where sql3730463.Exercises.workout_name = "' + req.body.workoutName + '"', 
+        (err, result, fields) => {
+
+        if(err){
+            return console.log(err);
+        }
+        // return updateTotalExercises(JSON.parse(JSON.stringify(result)));
+    });
+
+    pool.query('delete from sql3730463.Sets where sql3730463.Sets.workout_name = "' + req.body.workoutName + '"', 
+        (err, result, fields) => {
+
+        if(err){
+            return console.log(err);
+        }
+        // return updateTotalExercises(JSON.parse(JSON.stringify(result)));
+    });
+
+});
 
 // put request to update a workout (delete old data and add new data)
 app.put('/ChangeWorkouts', (req, res) =>{

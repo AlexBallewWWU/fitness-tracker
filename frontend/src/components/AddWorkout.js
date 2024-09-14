@@ -19,6 +19,16 @@ export default function AddWorkout({phaseChange, name, location}) {
 
     function deleteWorkout(){
         justDeleted = true;
+        fetch("/DeleteWorkout", {
+            method: 'Delete',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                workoutName: workouts[location].workoutName,
+                workoutNum: location
+            })
+          }).then(  // add error handle here
+            response => response.json()
+          )
         delete workouts[location];
         changeWorkouts([... workouts]);
     }
