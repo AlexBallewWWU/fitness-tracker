@@ -12,11 +12,11 @@ const pool = createPool({
 })
 
 const express = require("express");
-// const serverless = require("serverless-http");
-// const cors = require("cors");
+const serverless = require("serverless-http");
+const cors = require("cors");
 const app = express();
-// app.use(cors());
-// const bodyParser = require('body-parser');
+app.use(cors());
+const bodyParser = require('body-parser');
 
 // Middleware
 app.use(express.json());
@@ -258,9 +258,9 @@ app.put('/ChangeWorkouts', (req, res) =>{
     
 })
 // Start the server
-const port = 5000;
-app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
-});
+// const port = 5000;
+// app.listen(port, () => {
+//     console.log(`Server started on port ${port}`);
+// });
 
-// module.exports.handler = serverless(app);
+module.exports.handler = serverless(app);
