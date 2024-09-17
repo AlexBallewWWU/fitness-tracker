@@ -36,7 +36,8 @@ function App() {
 
   // include useEffect for efficiency as we only need this run once on first load
   useEffect(() => {
-    fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/Workouts").then(
+    // fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/Workouts").then(
+      fetch("/Workouts").then(
       response => response.json()
     ).then(
       // fetch("/Workouts").then(

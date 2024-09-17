@@ -10,7 +10,7 @@ html, body, #root, .App {
     background-color: black;
     margin: auto;
     border-radius: 20px;
-    border-width: 8px;
+    border-radius: 4px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -29,7 +29,7 @@ html, body, #root, .App {
     margin: auto;
     margin-top: 2%;
     border-radius: 20px;
-    border-width: 8px;
+    border-radius: 4px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -51,7 +51,7 @@ html, body, #root, .App {
     width: 80%;
     height: 10%;
     border-radius: 20px;
-    border-width: 8px;
+    border-radius: 4px;
     border-style: solid;
     border-color: white;
     display: block;
@@ -68,7 +68,7 @@ html, body, #root, .App {
     margin-top: 1%;
     margin-left: 85%;
     border-radius: 20px;
-    border-width: 8px;
+    border-radius: 4px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -82,7 +82,7 @@ html, body, #root, .App {
     background-color: rgb(162, 16, 16);
     margin-top: 1%;
     border-radius: 20px;
-    border-width: 8px;
+    border-radius: 4px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -99,7 +99,7 @@ html, body, #root, .App {
     background-color: black;
     margin-top: 1%;
     border-radius: 20px;
-    border-width: 8px;
+    border-radius: 4px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -114,7 +114,7 @@ html, body, #root, .App {
     background-color: black;
     margin-top: 1%;
     border-radius: 20px;
-    border-width: 8px;
+    border-radius: 4px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -130,7 +130,7 @@ html, body, #root, .App {
     background-color: black;
     margin-top: 1%;
     border-radius: 20px;
-    border-width: 8px;
+    border-radius: 4px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -148,7 +148,7 @@ html, body, #root, .App {
     padding-top: .5%;
     padding-bottom: .5%;
     border-radius: 20px;
-    border-width: 8px;
+    border-radius: 4px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -170,7 +170,7 @@ html, body, #root, .App {
 .sets-input{
     background-color: green;
     border-width: 0;
-    border-radius: 10px;
+    border-radius: 20px;
     width: 10%;
     font-size: 1.5vw;
     text-align: center;
@@ -195,7 +195,7 @@ html, body, #root, .App {
     margin-top: 1%;
     /* justify-content: center; */
     border-radius: 20px;
-    border-width: 8px;
+    border-radius: 4px;
     border-style: solid;
     border-color: white;
     
@@ -221,7 +221,7 @@ html, body, #root, .App {
     background-color: red;
     text-align: center;
     border-radius: 20px;
-    border-width: 8px;
+    border-radius: 4px;
     border-style: solid;
     border-color: white;
     position: absolute;
