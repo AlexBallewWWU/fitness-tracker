@@ -1,26 +1,18 @@
-// import userRoutes from './routes/users.js'
-
-const {
-    createPool
-} = require('mysql');
-
 const mysql = require("mysql")
 const dotenv = require("dotenv")
+const express = require("express");
+const cors = require("cors");
 
 dotenv.config({ path: __dirname + '/.env' });
+const app = express();
+app.use(cors());
 
+// create mysql database connection
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
-    // connectionLimit: 10
 })
-
-const express = require("express");
-const cors = require("cors");
-
-const app = express();
-app.use(cors());
 
 let port = process.env.PORT || 5000;
 
@@ -40,9 +32,6 @@ pool.getConnection((err, conn) => {
 app.get('/Workouts', (req, res) => { 
     var currentCount = 0;
     var totalDataAmount;
-        // 1 query to select all workoutnames
-    // store in an array al write more queries for each one to get their data
-    // var arr = Array.from(Array(0), () => new Array(0));
     var workouts = [];
 
     pool.query('select (select count(*) from sql3730463.Workout) + (select count(*) from sql3730463.Sets) + (select count(*) from sql3730463.Exercises) as totalCount', 
@@ -55,8 +44,6 @@ app.get('/Workouts', (req, res) => {
     });
 
     function updateTotalExercises(result){
-        // console.log("start");
-        // console.log(result);
         totalDataAmount = result[0].totalCount;
         return beginFillingData();
     }
@@ -97,7 +84,6 @@ app.get('/Workouts', (req, res) => {
 
     // fill in the exercises for a workout
     function findExerciseNames(exerciseTable, workoutTable){
-        // console.log(exerciseTable.we)
         var arr = workouts[exerciseTable[0].workout_num].arr;
 
         for(var i = 0; i < exerciseTable.length; i++){
@@ -108,7 +94,6 @@ app.get('/Workouts', (req, res) => {
         }
 
         if(currentCount == totalDataAmount){
-            // console.log("here2");
             res.send(workouts);
         } else {
             // loop through all exercises finding the set amounts for each one
@@ -161,20 +146,15 @@ app.delete('/DeleteWorkout', (req, res) => {
 app.put('/ChangeWorkout', async (req, res) =>{
 
     console.log(req.body);
-    let result = await deleteValuesServer(req.body.workoutName);
-    // if(deleteValuesServer(req.body.workoutName) == true){
-        // console.log("delete success");
-        // addValuesServer(req.body.workoutName, req.body.workoutNum, req.body.exercises);
-    // } else {
-    //     // send error
-    // }
-    if(result == true){
+    let result = await deleteValuesServer(req.body.workoutName); // need queries to finish running
+    if(result == true){ // we need to delete before adding or else we'll delete new data
         console.log("delete success");
         addValuesServer(req.body.workoutName, req.body.workoutNum, req.body.exercises);
     }
 })
 
 async function deleteValuesServer(workoutName){
+    // these aync functions are needed to determine when queires are done
     let deleteWorkoutTable = async() => {
         let results = await new Promise((resolve, reject)  => pool.query('delete from sql3730463.Workout where sql3730463.Workout.workout_name = "' + workoutName + '"', 
             (err, result, fields) => {
@@ -183,10 +163,7 @@ async function deleteValuesServer(workoutName){
                 return console.log(err);
             }
             resolve(result);
-            // return updateTotalExercises(JSON.parse(JSON.stringify(result)));
-            // return true;
         }));
-        console.log(results);
         return true;
     }
 
@@ -198,10 +175,7 @@ async function deleteValuesServer(workoutName){
                 return console.log(err);
             }
             resolve(result);
-            // return updateTotalExercises(JSON.parse(JSON.stringify(result)));
-            // return true;
         }));
-        console.log(results);
         return true;
     }
 
@@ -213,44 +187,19 @@ async function deleteValuesServer(workoutName){
                 return console.log(err);
             }
             resolve(result);
-            // return updateTotalExercises(JSON.parse(JSON.stringify(result)));
-            // return true;
         }));
-        console.log(results);
         return true;
     }
 
+    // make sure all queries executed correctly 
     let query1 = await deleteWorkoutTable();
     let query2 = await deleteExerciseTable();
     let query3 = await deleteSetsTable();
-
     
     if(query1 == true && query2 == true && query3 == true){
         console.log("delete success-1");
         return true;
     }
-
-    // function deleteExerciseTable(){
-    //     pool.query('delete from sql3730463.Exercises where sql3730463.Exercises.workout_name = "' + workoutName + '"', 
-    //         (err, result, fields) => {
-
-    //         if(err){
-    //             return console.log(err);
-    //         }
-    //         return true;
-    //     });
-    // }
-
-    // function deleteSetTable(){
-    //     pool.query('delete from sql3730463.Sets where sql3730463.Sets.workout_name = "' + workoutName + '"', 
-    //         (err, result, fields) => {
-
-    //         if(err){
-    //             return console.log(err);
-    //         }
-    //         return true;
-    //     });
-    // }
 }
 
 // check why made it to line 225 when no exercises

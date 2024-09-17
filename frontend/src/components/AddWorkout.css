@@ -9,8 +9,8 @@ html, body, #root, .App {
     overflow: hidden;
     background-color: black;
     margin: auto;
-    border-radius: 20px;
-    border-radius: 4px;
+    border-radius: 12px;
+    border-width: 3px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -23,19 +23,19 @@ html, body, #root, .App {
 }
 
 .addNewWorkout{
-    width: 60%;
-    height: 10%;
+    width: 64%;
+    /* height: 10%; */
     background-color: black;
     margin: auto;
     margin-top: 2%;
-    border-radius: 20px;
-    border-radius: 4px;
+    border-radius: 12px;
+    border-width: 3px;
     border-style: solid;
     border-color: white;
     color: white;
     font-size: 8vw; /* fix later, goes over border when to large*/
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    padding: 2%;
+    /* padding: 2%; */
     display: flex;
     align-items : center;
     justify-content: center;
@@ -50,8 +50,8 @@ html, body, #root, .App {
     background-color: black;
     width: 80%;
     height: 10%;
-    border-radius: 20px;
-    border-radius: 4px;
+    border-radius: 12px;
+    border-width: 3px;
     border-style: solid;
     border-color: white;
     display: block;
@@ -67,8 +67,8 @@ html, body, #root, .App {
     margin: auto;
     margin-top: 1%;
     margin-left: 85%;
-    border-radius: 20px;
-    border-radius: 4px;
+    border-radius: 12px;
+    border-width: 3px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -81,8 +81,8 @@ html, body, #root, .App {
     height: 11%;
     background-color: rgb(162, 16, 16);
     margin-top: 1%;
-    border-radius: 20px;
-    border-radius: 4px;
+    border-radius: 12px;
+    border-width: 3px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -98,8 +98,8 @@ html, body, #root, .App {
     height: 8%;
     background-color: black;
     margin-top: 1%;
-    border-radius: 20px;
-    border-radius: 4px;
+    border-radius: 12px;
+    border-width: 3px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -113,8 +113,8 @@ html, body, #root, .App {
     width: 70%;
     background-color: black;
     margin-top: 1%;
-    border-radius: 20px;
-    border-radius: 4px;
+    border-radius: 12px;
+    border-width: 3px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -129,8 +129,8 @@ html, body, #root, .App {
     height: auto;
     background-color: black;
     margin-top: 1%;
-    border-radius: 20px;
-    border-radius: 4px;
+    border-radius: 12px;
+    border-width: 3px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -147,8 +147,8 @@ html, body, #root, .App {
     margin-top: 1%;
     padding-top: .5%;
     padding-bottom: .5%;
-    border-radius: 20px;
-    border-radius: 4px;
+    border-radius: 12px;
+    border-width: 3px;
     border-style: solid;
     border-color: white;
     color: white;
@@ -170,7 +170,7 @@ html, body, #root, .App {
 .sets-input{
     background-color: green;
     border-width: 0;
-    border-radius: 20px;
+    border-radius: 12px;
     width: 10%;
     font-size: 1.5vw;
     text-align: center;
@@ -194,8 +194,8 @@ html, body, #root, .App {
     margin-left: 1%;
     margin-top: 1%;
     /* justify-content: center; */
-    border-radius: 20px;
-    border-radius: 4px;
+    border-radius: 12px;
+    border-width: 3px;
     border-style: solid;
     border-color: white;
     
@@ -206,7 +206,7 @@ html, body, #root, .App {
     background-color: red;
     text-align: center;
     margin-top: 1%;
-    border-radius: 20px;
+    border-radius: 12px;
     border-width: 3px;
     border-style: solid;
     border-color: white;
@@ -220,8 +220,8 @@ html, body, #root, .App {
 .deleteWorkout{
     background-color: red;
     text-align: center;
-    border-radius: 20px;
-    border-radius: 4px;
+    border-radius: 12px;
+    border-width: 3px;
     border-style: solid;
     border-color: white;
     position: absolute;
