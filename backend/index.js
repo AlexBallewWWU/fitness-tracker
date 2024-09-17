@@ -4,23 +4,66 @@ const {
     createPool
 } = require('mysql');
 
-const pool = createPool({
-    host:"sql3.freesqldatabase.com",
-    user:"sql3730463",
-    password:"INqXtqtUM9",
-    connectionLimit: 10
+const mysql = require("mysql")
+const dotenv = require("dotenv")
+
+dotenv.config({ path: __dirname + '/.env' });
+
+
+// var temp = process.env.DB_PASSWORD;
+// // const mysql = require('mysql');
+
+const pool = mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    // connectionLimit: 10
 })
 
+// const pool = createPool({
+//     host:"sql3.freesqldatabase.com",
+//     user:"sql3730463",
+//     password:"INqXtqtUM9",
+//     connectionLimit: 10
+// })
+
 const express = require("express");
-const serverless = require("serverless-http");
-const cors = require("cors");
+// const serverless = require("serverless-http");
+// const cors = require("cors");
+// require("dotenv").config();
+
 const app = express();
-app.use(cors());
-const bodyParser = require('body-parser');
+// app.use(cors());
+// const bodyParser = require('body-parser');
+
+let port = process.env.PORT || 3001;
 
 // Middleware
 app.use(express.json());
 
+pool.getConnection((err, conn) => {
+    // console.log(process.env.DB_PASSWORD);
+    // console.log(temp);
+    if(err){
+        console.log(err);
+    } else {
+        console.log("connection successful");
+    }
+})
+
+app.get('/Hello', (req, res) => {
+    pool.query('select * from sql3730463.Workout', (err, result, fields) => {
+        
+        if(err){
+            return res.send(err);
+        }
+        return res.send(result);
+    });
+})
+
+app.get('/', (req, res) => {
+    res.send("base");
+})
 
 // ISSUES: we need to be able 
 
@@ -259,8 +302,8 @@ app.put('/ChangeWorkouts', (req, res) =>{
 })
 // Start the server
 // const port = 5000;
-// app.listen(port, () => {
-//     console.log(`Server started on port ${port}`);
-// });
+app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
+});
 
-module.exports.handler = serverless(app);
+// module.exports.handler = serverless(app);
