@@ -9,7 +9,7 @@ var access = '';
 
 export var accessContext = React.createContext();
 
-// How workouts are stored:
+// How workouts are stored: 
 
 //  workouts[
 //    {
@@ -27,6 +27,7 @@ export var accessContext = React.createContext();
 
 function App() {
 
+
   const [hasLoaded, setHasLoaded] = useState(false);
   const [phase, phaseChange] = useState("Home");
   const [workouts, changeWorkouts] = useState([]);
@@ -36,8 +37,19 @@ function App() {
 
   // include useEffect for efficiency as we only need this run once on first load
   useEffect(() => {
-    // fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/Workouts").then(
-      fetch("/Workouts").then(
+    fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/Workouts"
+    // fetch("/Workouts"
+      , {
+        method: 'GET',
+        // mode: 'no-cors' // left off here causing error, keep trying to get things working 1 by 1
+        // headers: {
+        //     'Content-Type': 'application/json',
+        //     'Access-Control-Allow-Origin': '*',
+        //     'Access-Control-Allow-Methods': '*'
+        // }
+      }
+    ).then(
+      // fetch("/Workouts").then(
       response => response.json()
     ).then(
       // fetch("/Workouts").then(

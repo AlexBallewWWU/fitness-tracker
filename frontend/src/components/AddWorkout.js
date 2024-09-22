@@ -19,7 +19,7 @@ export default function AddWorkout({phaseChange, name, location}) {
 
     function deleteWorkout(){
         justDeleted = true;
-        fetch("/DeleteWorkout", {
+        fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/DeleteWorkout", {
             method: 'Delete',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -64,51 +64,47 @@ function CreateWorkout({phaseChange}){
         if(workoutLastClicked == -1){  // -1 means first time saving workout
             console.log(workout.arr);
             // post request because we're just adding new data
-            fetch("/AddWorkout", {
+            fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/addworkout", {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                // mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify({
                     workoutName: workout.workoutName,
                     exercises: workout.arr,
                     workoutNum: workouts.length
                 })
-              }).then(
-                response => response.json()
-              ). then( // print response in json to screen
-                data => {
-                    console.log(data)  // error check
-                    if(data.statusCode != 200){
-                        alert("server error");
-                    }
-                }
-              )
+              })
             changeWorkouts([... workouts, workout]);  // save the workout if clicked finish else don't
         } else {   // update changes
             // put request because we are modifying and adding new data
             workouts[workoutLastClicked].arr = workout.arr;
             workouts[workoutLastClicked].workoutName = workout.workoutName;
 
-            fetch("/ChangeWorkout", {
+            console.log(workout.workoutName);
+            console.log(workout.arr);
+            console.log(workouts.length);
+
+            fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/ChangeWorkout", {
                 method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
+                // mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify({
                     workoutName: workout.workoutName,
                     exercises: workout.arr,
                     workoutNum: workouts.length
                 })
               }).then(
-                response => response.json()
-              ). then( // print response in json to screen
-                data => {
-                    console.log(data)  // error check
-                    if(data.statusCode != 200){
-                        alert("server error");
-                    }
+                response => response
+              ).then(
+                data =>{
+                    console.log(data)
                 }
               )
-              
-            changeWorkouts([... workouts]);
-        }
+            }
         phaseChange("Home");
     }
 
