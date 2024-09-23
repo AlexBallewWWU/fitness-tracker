@@ -1,4 +1,82 @@
 .spotifyTab{
+    width: 70%;
+    height: auto;
+    background-color: black;
+    margin: auto;
+    border-radius: 12px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: white;
+    display : flex; /* by default works in rows left to right which can be seen if this removed */
+    align-items : center;
+    flex-direction: column;
+    color: white;
+    /* color: rgb(77, 183, 77); for later text*/
+    font-size: 3vw; /* fix later, goes over border when to large*/
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 2%;
+}
+
+.spotifyTab2{
+    /* width: 20%; */
+    /* left: 40%; */
+    height: auto;
+    background-color: black;
+    /* margin: auto; */
+    /* margin-top: 5%; */
+    border-radius: 12px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: white;
+    display : flex; /* by default works in rows left to right which can be seen if this removed */
+    /* align-items : center; */
+    flex-direction: column;
+    color: white;
+    /* color: rgb(77, 183, 77); for later text*/
+    font-size: 3vw; /* fix later, goes over border when to large*/
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 2%;
+}
+
+.spotifyTab3{
+    width: 60%;
+    height: auto;
+    background-color: black;
+    margin: auto;
+    margin-top: 5%;
+    border-radius: 12px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: white;
+    display : flex; /* by default works in rows left to right which can be seen if this removed */
+    align-items : center;
+    /* flex-direction: column; */
+    color: white;
+    /* color: rgb(77, 183, 77); for later text*/
+    font-size: 3vw; /* fix later, goes over border when to large*/
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 2%;
+}
+
+:hover.spotifyTab2{
+    background-color: green;
+}
+
+
+.album{
+    width: 22%;
+    height: auto;
+    margin-left: 2%;
+}
+
+.spotifySymbol{
+    object-fit: contain;
+    /* height: 100%; */
+    width: 20%;
+    margin-right: 5%;
+}
+
+.spotifyTabOrg{
     width: 60%;
     height: auto;
     background-color: black;
@@ -15,17 +93,4 @@
     font-size: 3vw; /* fix later, goes over border when to large*/
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     padding: 2%;
-}
-
-.album{
-    width: 22%;
-    height: auto;
-    margin-left: 2%;
-}
-
-.spotifySymbol{
-    object-fit: contain;
-    /* height: 100%; */
-    width: 20%;
-    margin-right: 5%;
 }

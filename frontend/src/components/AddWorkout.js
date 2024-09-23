@@ -19,7 +19,7 @@ export default function AddWorkout({phaseChange, name, location}) {
 
     function deleteWorkout(){
         justDeleted = true;
-        fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/DeleteWorkout", {
+        fetch("/DeleteWorkout", {
             method: 'Delete',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -64,7 +64,7 @@ function CreateWorkout({phaseChange}){
         if(workoutLastClicked == -1){  // -1 means first time saving workout
             console.log(workout.arr);
             // post request because we're just adding new data
-            fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/addworkout", {
+            fetch("/addworkout", {
                 method: 'POST',
                 // mode: 'no-cors',
                 headers: {
@@ -86,7 +86,7 @@ function CreateWorkout({phaseChange}){
             console.log(workout.arr);
             console.log(workouts.length);
 
-            fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/ChangeWorkout", {
+            fetch("/ChangeWorkout", {
                 method: 'PUT',
                 // mode: 'no-cors',
                 headers: {

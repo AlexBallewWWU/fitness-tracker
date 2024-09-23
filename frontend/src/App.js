@@ -1,4 +1,5 @@
 import SpotifyTab from './components/SpotifyTab';
+import { HookToSpotify } from './components/SpotifyTab';
 import { requestAuth } from './components/Auth';
 import React, { useEffect, useState } from 'react';
 import AddWorkout from './components/AddWorkout';
@@ -30,6 +31,7 @@ function App() {
 
   const [hasLoaded, setHasLoaded] = useState(false);
   const [phase, phaseChange] = useState("Home");
+  const [spotifyLink, linkSpotify] = useState(false);
   const [workouts, changeWorkouts] = useState([]);
   const [workoutLastClicked, changeLastClicked] = useState(0);
 
@@ -37,43 +39,57 @@ function App() {
 
   // include useEffect for efficiency as we only need this run once on first load
   useEffect(() => {
-    fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/Workouts"
-    // fetch("/Workouts"
-      , {
-        method: 'GET',
-        // mode: 'no-cors' // left off here causing error, keep trying to get things working 1 by 1
-        // headers: {
-        //     'Content-Type': 'application/json',
-        //     'Access-Control-Allow-Origin': '*',
-        //     'Access-Control-Allow-Methods': '*'
-        // }
-      }
-    ).then(
-      // fetch("/Workouts").then(
-      response => response.json()
-    ).then(
-      // fetch("/Workouts").then(
-      //   response => response.json()
-      // ).then(
-      data => {
-        // setBackendData(data)
-        console.log(workouts);
-        console.log(data);
-        changeWorkouts(data);
-      }
-    )
+    if(spotifyLink == false){
+    // fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/Workouts"
+      fetch("/Workouts"
+        , {
+          method: 'GET',
+          // mode: 'no-cors' // left off here causing error, keep trying to get things working 1 by 1
+          // headers: {
+          //     'Content-Type': 'application/json',
+          //     'Access-Control-Allow-Origin': '*',
+          //     'Access-Control-Allow-Methods': '*'
+          // }
+        }
+      ).then(
+        // fetch("/Workouts").then(
+        response => response.json()
+      ).then(
+        // fetch("/Workouts").then(
+        //   response => response.json()
+        // ).then(
+        data => {
+          // setBackendData(data)
+          console.log(workouts);
+          console.log(data);
+          changeWorkouts(data);
+        }
+      )
+   }
 //
     document.body.style.backgroundColor = 'black';
-    requestAuth(access).then( (res) => {
-      access = res;
-      setHasLoaded(true);  // state changes cause page rerender, just a note
-    });
-  }, []);
+    if(spotifyLink == true){
+      requestAuth(access).then( (res) => {
+        access = res;
+        setHasLoaded(true);  // state changes cause page rerender, just a note
+        linkSpotify(true);
+      });
+    } else if (window.location.search.substring("code")){
+      requestAuth(access).then( (res) => {
+        access = res;
+        linkSpotify(true);
+        setHasLoaded(true);  // state changes cause page rerender, just a note
+      });
+    } else {
+      setHasLoaded(true);
+    }
+  }, [spotifyLink]);
 
   if(hasLoaded == true){  // need auth to finish before proceeding to here
     return(
-      <accessContext.Provider value={{access, workouts, changeWorkouts, workoutLastClicked, changeLastClicked}}>
-        {phase == "Home" && <SpotifyTab/>}
+      <accessContext.Provider value={{access, workouts, changeWorkouts, workoutLastClicked, changeLastClicked, spotifyLink, linkSpotify}}>
+        {phase == "Home" && spotifyLink == false && <SpotifyTab/>}
+        {phase == "Home" && spotifyLink == true && <HookToSpotify/>}
         {
 
         workouts.map((item, index) => {
