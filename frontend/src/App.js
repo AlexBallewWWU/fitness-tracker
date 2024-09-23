@@ -44,12 +44,7 @@ function App() {
       fetch("/Workouts"
         , {
           method: 'GET',
-          // mode: 'no-cors' // left off here causing error, keep trying to get things working 1 by 1
-          // headers: {
-          //     'Content-Type': 'application/json',
-          //     'Access-Control-Allow-Origin': '*',
-          //     'Access-Control-Allow-Methods': '*'
-          // }
+
         }
       ).then(
         // fetch("/Workouts").then(

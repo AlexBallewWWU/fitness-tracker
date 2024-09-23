@@ -46,8 +46,13 @@ app.use(express.json());
 // ISSUES: we need to be able 
 
 
-app.get('/contact', headers, (req, res) => {
-	res.send("hi");
+app.get('/keys', headers, (req, res) => {
+    const keys = {
+        client_id : process.env.CLIENT_ID,
+        client_secret : process.env.CLIENT_SECRET
+    }
+    console.log("sending data");
+	res.send(JSON.stringify(keys));
 })
 
 // get request to grab all data from server and put in formated storage to be displayed by front end

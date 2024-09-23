@@ -2,8 +2,9 @@ export { requestAuth }
 
 // var redirect_uri = "https://fitness-tracker-frontend-c27dcf177753.herokuapp.com"
 var redirect_uri = "http://127.0.0.1:3000"
-var client_id = 'e65e883011ca4cafbd3b38e703cc92ba';
-var client_secret = 'e6b9e6a148aa40bfb1bb7dc658a288c2';
+var client_id = '';
+var client_secret = '';
+
 var access = '';
 var accessToken = '';
 
@@ -11,6 +12,13 @@ const AUTHORIZE = "https://accounts.spotify.com/authorize"
 const TOKEN = "https://accounts.spotify.com/api/token"
 
 async function requestAuth(curAccess){
+
+    console.log("start");
+    var codes = await getKeys();
+    console.log(codes);
+    client_id = codes.client_id;
+    client_secret = codes.client_secret;
+    console.log("nope");
 
     if(curAccess.expires_in > 0){
         return access;
@@ -31,6 +39,18 @@ async function requestAuth(curAccess){
     url += "&user-read-recently-played"
     url += "&playlist-read-private"
     window.location.href = url;
+}
+
+async function getKeys() {
+    return fetch('/keys'
+        , {
+            method : 'GET'
+        }
+    ).then(
+        (response) => response.json()
+    ).then(
+        data => {return data}
+    )
 }
 
 async function handleCode(){

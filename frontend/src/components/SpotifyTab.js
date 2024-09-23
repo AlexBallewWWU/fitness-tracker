@@ -39,8 +39,8 @@ export default function SpotifyTab() {
                 <img src={logo} className='spotifySymbol'></img>
 
                 <div className='spotifyTab'>
-                    <p style={{fontSize: '2vw', margin: 0}}> Use Email: <span style={{fontSize: '2vw', color: 'green'}}> Ab8241@gmail.com </span></p>
-                    <p style={{fontSize: '2vw', margin: "2%"}}> Use Password: <span style={{fontSize: '2vw', color: 'green'}}> Reminder$1 </span></p>
+                    <p style={{fontSize: '2vw', margin: 0}}> Use Email: <span style={{fontSize: '2vw', color: 'green'}}> spotifytester2004@@gmail.com </span></p>
+                    <p style={{fontSize: '2vw', margin: "2%"}}> Use Password: <span style={{fontSize: '2vw', color: 'green'}}> One4All$15 </span></p>
 
                     <div className='spotifyTab2' onClick={linkToSpotify}>
                         <p style={{fontSize: '1vw', margin: 0}}> Click to link to Spotify</p>
@@ -63,17 +63,20 @@ function HookToSpotify(){
 
     useEffect(() => {  // only need to run once
             console.log(access);
-            if(access.length != ''){ // prevents error from reading track before access is given 
-            accessToken = access.access_token;
-            getRecPlaylist().then( (res) => {
-                if(reccomendedSong == ''){ // check to make sure we're not reseting rec song of workout
-                    playlistInfo = res;
-                    const recSong = Math.floor(Math.random() * playlistInfo.total - 1); // acount for starting at 0
-                    reccomendedSong = playlistInfo.items[recSong].track.name;
-                    reccomendedSongAlbum = playlistInfo.items[recSong].track.album.images[0].url
-                }
-                setHasLoaded(true);
-            })
+            if(access.length != ''){ // prevents error from reading track before access is given
+                console.log(access); 
+                accessToken = access.access_token;
+                getRecPlaylist().then( (res) => {
+                    if(reccomendedSong == ''){ // check to make sure we're not reseting rec song of workout
+                        playlistInfo = res;
+                        const recSong = Math.floor(Math.random() * playlistInfo.total);
+                        console.log(playlistInfo);
+                        console.log(recSong);
+                        reccomendedSong = playlistInfo.items[recSong].track.name;
+                        reccomendedSongAlbum = playlistInfo.items[recSong].track.album.images[0].url
+                    }
+                    setHasLoaded(true);
+                })
             }
     }, [])
 
@@ -94,7 +97,7 @@ function HookToSpotify(){
 async function getRecPlaylist(){
 
     let recPlaylist = PLAYLIST.slice();
-    recPlaylist += "/1qgvuGl9WLKETqNshuaGKP/tracks"
+    recPlaylist += "/236Ff7pY1vMNVcxA7mpC9V/tracks"
 
     const response = await fetch(recPlaylist, {
         method: "GET",
