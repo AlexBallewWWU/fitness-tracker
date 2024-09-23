@@ -1,10 +1,9 @@
 export { requestAuth }
 
-// var redirect_uri = "https://fitness-tracker-frontend-c27dcf177753.herokuapp.com"
-var redirect_uri = "http://127.0.0.1:3000"
+var redirect_uri = "https://fitness-tracker-frontend-c27dcf177753.herokuapp.com"
+// var redirect_uri = "http://127.0.0.1:3000"
 var client_id = '';
 var client_secret = '';
-
 var access = '';
 var accessToken = '';
 
@@ -13,19 +12,15 @@ const TOKEN = "https://accounts.spotify.com/api/token"
 
 async function requestAuth(curAccess){
 
-    console.log("start");
+    // get client_id and secret from backend
     var codes = await getKeys();
-    console.log(codes);
     client_id = codes.client_id;
     client_secret = codes.client_secret;
-    console.log("nope");
 
     if(curAccess.expires_in > 0){
         return access;
     }
 
-    // might set something up where two options, use your account or use mine
-    // not secure, currently only works with my account (maybe change later)
     if(window.location.search.substring("code")){
         await handleCode();
         return access;
@@ -42,11 +37,9 @@ async function requestAuth(curAccess){
 }
 
 async function getKeys() {
-    return fetch('/keys'
-        , {
+    return fetch('https://fitness-tracker2024-8f04514422ed.herokuapp.com/keys', {
             method : 'GET'
-        }
-    ).then(
+    }).then(
         (response) => response.json()
     ).then(
         data => {return data}
@@ -54,14 +47,14 @@ async function getKeys() {
 }
 
 async function handleCode(){
-    if(!window.location.search.substring("code")){
+    if (!window.location.search.substring("code")) {
         return;
     }
             // returns object with all url params
     let urlParams = new URLSearchParams(window.location.search);
     let authCode = urlParams.get("code");
 
-    await getAccessToken(authCode).then((res) =>{
+    await getAccessToken(authCode).then((res) => {
         access = res;
         accessToken = access.access_token;
         return res;

@@ -28,7 +28,6 @@ export var accessContext = React.createContext();
 
 function App() {
 
-
   const [hasLoaded, setHasLoaded] = useState(false);
   const [phase, phaseChange] = useState("Home");
   const [spotifyLink, linkSpotify] = useState(false);
@@ -39,48 +38,40 @@ function App() {
 
   // include useEffect for efficiency as we only need this run once on first load
   useEffect(() => {
-    if(spotifyLink == false){
-    // fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/Workouts"
-      fetch("/Workouts"
+    if (spotifyLink == false) {
+      fetch("https://fitness-tracker2024-8f04514422ed.herokuapp.com/Workouts"
+      // fetch("/Workouts"
         , {
           method: 'GET',
-
         }
       ).then(
-        // fetch("/Workouts").then(
         response => response.json()
       ).then(
-        // fetch("/Workouts").then(
-        //   response => response.json()
-        // ).then(
         data => {
-          // setBackendData(data)
-          console.log(workouts);
-          console.log(data);
           changeWorkouts(data);
         }
       )
    }
-//
+
     document.body.style.backgroundColor = 'black';
-    if(spotifyLink == true){
-      requestAuth(access).then( (res) => {
+    if (spotifyLink == true) {  // we check if user has requested spotify link
+      requestAuth(access).then((res) => {
         access = res;
-        setHasLoaded(true);  // state changes cause page rerender, just a note
+        setHasLoaded(true);
         linkSpotify(true);
-      });
-    } else if (window.location.search.substring("code")){
-      requestAuth(access).then( (res) => {
+      });   
+    } else if (window.location.search.substring("code")){ // user has requested spotify tab and been redirected back here
+      requestAuth(access).then((res) => {
         access = res;
         linkSpotify(true);
         setHasLoaded(true);  // state changes cause page rerender, just a note
       });
-    } else {
+    } else { // user has not requested spotify tab
       setHasLoaded(true);
     }
-  }, [spotifyLink]);
+  }, [spotifyLink]); // only run again if user requests spotify tab
 
-  if(hasLoaded == true){  // need auth to finish before proceeding to here
+  if (hasLoaded == true) {  // need auth to finish before proceeding to here
     return(
       <accessContext.Provider value={{access, workouts, changeWorkouts, workoutLastClicked, changeLastClicked, spotifyLink, linkSpotify}}>
         {phase == "Home" && spotifyLink == false && <SpotifyTab/>}
@@ -88,7 +79,7 @@ function App() {
         {
 
         workouts.map((item, index) => {
-          if(phase == "Home" && workouts[index] != null){
+          if (phase == "Home" && workouts[index] != null) {
             return <AddWorkout phase={phase} phaseChange={phaseChange} name={item.workoutName} key={index} location={index}></AddWorkout>
           }
         })}

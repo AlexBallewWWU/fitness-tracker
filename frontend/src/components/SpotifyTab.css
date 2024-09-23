@@ -17,7 +17,7 @@
     padding: 2%;
 }
 
-.spotifyTab2{
+.spotifyLink{
     /* width: 20%; */
     /* left: 40%; */
     height: auto;
@@ -38,7 +38,7 @@
     padding: 2%;
 }
 
-.spotifyTab3{
+.container{
     width: 60%;
     height: auto;
     background-color: black;
@@ -58,7 +58,7 @@
     padding: 2%;
 }
 
-:hover.spotifyTab2{
+:hover.spotifyLink{
     background-color: green;
 }
 
@@ -76,7 +76,7 @@
     margin-right: 5%;
 }
 
-.spotifyTabOrg{
+.finishedSpotifyTab{
     width: 60%;
     height: auto;
     background-color: black;
